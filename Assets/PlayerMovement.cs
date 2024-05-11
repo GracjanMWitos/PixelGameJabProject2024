@@ -14,9 +14,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move(int xAxisValue, int yAxisValue)
     {
-        Vector3 nextTile = new Vector3(currentTile.x + xAxisValue, currentTile.y + yAxisValue, currentTile.z);
-        transform.position = GridManager.Instance.CheckNewTile(currentTile, nextTile);
-        currentTile = transform.position;
+        if (GameManager.Instance.isBeat)
+        {
+            Vector3 nextTile = new Vector3(currentTile.x + xAxisValue, currentTile.y + yAxisValue, currentTile.z);
+            transform.position = GridManager.Instance.CheckNewTile(currentTile, nextTile);
+            currentTile = transform.position;
+        }
     }
     private void Update()
     {
