@@ -1,5 +1,5 @@
 {
-    "name": "Controls",
+    "name": "InputActions",
     "maps": [
         {
             "name": "Player",
@@ -36,6 +36,15 @@
                     "name": "MoveRight",
                     "type": "Button",
                     "id": "e4b90bc9-dbcd-4a49-9c95-8c7242c148b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HitNote",
+                    "type": "Button",
+                    "id": "3eb38fc0-86fd-4c9a-9697-36a88b0604ec",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -84,6 +93,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "MoveLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af72dd28-4a62-41d5-9a60-8d50d1b24e1e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HitNote",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd5f288d-7e0f-4667-b04a-3a4e8690cd2a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HitNote",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
