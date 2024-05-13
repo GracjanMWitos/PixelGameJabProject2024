@@ -45,6 +45,7 @@ public class GridManager : MonoBehaviour
                     var gridTile = Instantiate(gridTilePrefab, tileLocation, Quaternion.identity, gridContainer);
 
                     gridTile.gridTileLocation = tileLocation;
+                    gridTile.name = "tile " + tileKey;
                     tilesLocationList.Add(tileLocation);
                     gridTilesMap.Add(tileKey, gridTile);
                 }

@@ -19,32 +19,6 @@ public class PlayerController : MonoBehaviour
     {
         GetPlayerTile();
     }
-    private void GetPlayerTile()
-    {
-        GridTile startingTile = null;
-        var playerTileKey = new Vector2Int((int)transform.position.x, (int)transform.position.y);
-
-        foreach (Vector3Int tileInDictionary in GridManager.Instance.tilesLocationList)
-        {
-            if (GridManager.Instance.gridTilesMap.ContainsKey(playerTileKey))
-            {
-                startingTile = GridManager.Instance.gridTilesMap[playerTileKey];
-                GameManager.Instance.currentPlayerTile = startingTile;
-            }
-        }
-        transform.position = startingTile.transform.position;
-    }
-    public Vector3 CheckNextTile(Vector3 currentTile, Vector3 nextTile)
-    {
-        foreach (Vector3 tileLocation in GridManager.Instance.tilesLocationList)
-        {
-            if (nextTile == tileLocation)
-            {
-                return nextTile;
-            }
-        }
-        return currentTile;
-    }
     private void Move(int xAxisValue, int yAxisValue)
     {
         if (GameManager.Instance.isBeat)
@@ -55,6 +29,33 @@ public class PlayerController : MonoBehaviour
             GetPlayerTile();
         }
     }
+    private GridTile GetPlayerTile()
+    {
+        GridTile currentTile = null;
+        var playerTileKey = new Vector2Int((int)transform.position.x, (int)transform.position.y);
+
+        foreach (Vector3Int tileInDictionary in GridManager.Instance.tilesLocationList)
+        {
+            if (GridManager.Instance.gridTilesMap.ContainsKey(playerTileKey))
+            {
+                currentTile = GridManager.Instance.gridTilesMap[playerTileKey];
+                GameManager.Instance.currentPlayerTile = currentTile; //Update player tile in Game Manager
+            }
+        }
+        return currentTile;
+    }
+    private Vector3 CheckNextTile(Vector3 currentTile, Vector3 nextTile)
+    {
+        foreach (Vector3 tileLocation in GridManager.Instance.tilesLocationList)
+        {
+            if (nextTile == tileLocation)
+            {
+                return nextTile;
+            }
+        }
+        return currentTile;
+    }
+
     private void OnHitNote(int projectileIndex)
     {
         if (GameManager.Instance.isHalfbeat || GameManager.Instance.isBeat)
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviour
 
         inputActions.Player.HitNote.performed += ctx => OnHitNote(0);
     }
+    #region Enable Disable
     private void OnEnable()
     {
         inputActions.Enable();
@@ -81,5 +83,6 @@ public class PlayerController : MonoBehaviour
     {
         inputActions.Disable();
     }
+    #endregion
 }
 

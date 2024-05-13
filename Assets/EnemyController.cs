@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
     public GridTile currentEnemyTile;
     [HideInInspector] public int numberOfMovesPerBeat = 1;
     public List<GridTile> path = new List<GridTile>();
-    private void Awake()
+    private void Start()
     {
         pathFinding = new PathFinding();
 
@@ -33,7 +33,6 @@ public class EnemyController : MonoBehaviour
                 startingTile = GridManager.Instance.gridTilesMap[enemyTileKey];
             }
         }
-        transform.position = startingTile.transform.position;
         return startingTile;
     }
     void Update()
@@ -45,11 +44,15 @@ public class EnemyController : MonoBehaviour
         timeBetweenMoves = GameManager.Instance.timeBetweenHalfbeats;
 
         playerTile = GameManager.Instance.currentPlayerTile;
+
+        transform.position = Vector3.Lerp(transform.position, SelectNextMove(), timeBetweenMoves / Time.deltaTime);
+        //path.RemoveAt(0);
+    }
+    private Vector3 SelectNextMove()
+    {
+        path.Clear();
         path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles that creating path to player
-        transform.position = Vector2.MoveTowards(
-            currentEnemyTile.transform.position,
-            path[0].transform.position,
-            moveSpeed * timeBetweenMoves * Time.deltaTime
-            );
+
+        return path[0].transform.position;
     }
 }

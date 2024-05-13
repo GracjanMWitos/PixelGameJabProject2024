@@ -43,11 +43,11 @@ public class EnemiesManager : MonoBehaviour
     }
     public void MoveAllEnemies()
     {
-        GameObject[] tempEnemiesArray = new GameObject[currentEnemiesGroupTransform.childCount];
         for (int i = 0; i < currentEnemiesGroupTransform.childCount; i++)
         {
-            tempEnemiesArray[i] = currentEnemiesGroupTransform.GetChild(i).gameObject;
-            tempEnemiesArray[i].GetComponent<EnemyController>().EnemyMove();
+            
+            enemiesArray[i].GetComponent<EnemyController>().EnemyMove();
+            Debug.Log("Move enemy with index " + i);
         }
     }
 }
