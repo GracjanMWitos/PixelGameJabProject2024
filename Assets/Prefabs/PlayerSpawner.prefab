@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3802740518149686525
+--- !u!1 &8166723216830511405
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4477682754605147599}
-  - component: {fileID: 5837096045308742364}
+  - component: {fileID: 173656464426112084}
+  - component: {fileID: 2467139951108917389}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: PlayerSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4477682754605147599
+--- !u!4 &173656464426112084
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3802740518149686525}
+  m_GameObject: {fileID: 8166723216830511405}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4081004, y: 2.7930787, z: 0.20403104}
+  m_LocalPosition: {x: 11.092067, y: 3.0916696, z: -0.11626637}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5837096045308742364
+--- !u!114 &2467139951108917389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3802740518149686525}
+  m_GameObject: {fileID: 8166723216830511405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de4d5e960d819d04ea11f9083b43e664, type: 3}
+  m_Script: {fileID: 11500000, guid: a49ac4770c1cad445b85761db3ab0c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
-  moveIndicator: {fileID: 0}
-  player: {fileID: 0}
-  currentPlayerTile: {fileID: 0}
-  isBeat: 0
-  isHalfbeat: 0
-  beatPerMinute: 88
-  mistakeMarginBeforeNote: 0.25
-  audioDelay: 0.0863
-  timeBetweenHalfbeats: 0
+  player: {fileID: 7075378914132075686, guid: 10bb5c1b9f0668944a528b5f118b12ad, type: 3}

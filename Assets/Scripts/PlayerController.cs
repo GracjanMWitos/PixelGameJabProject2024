@@ -23,9 +23,9 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.isBeat)
         {
+            currentTile = transform.position;
             Vector3 nextTile = new Vector3(currentTile.x + xAxisValue, currentTile.y + yAxisValue, currentTile.z);
             transform.position = CheckNextTile(currentTile, nextTile);
-            currentTile = transform.position;
             GetPlayerTile();
         }
     }

@@ -41,13 +41,11 @@ public class EnemiesManager : MonoBehaviour
         enemiesArray = tempEnemiesArray;
         return enemiesArray;
     }
-    public void MoveAllEnemies()
+    public void ExecuteEnemiesActions()
     {
         for (int i = 0; i < currentEnemiesGroupTransform.childCount; i++)
         {
-            
-            enemiesArray[i].GetComponent<EnemyController>().EnemyMove();
-            Debug.Log("Move enemy with index " + i);
+            enemiesArray[i].GetComponent<EnemyController>().ExecuteEnemyAction();
         }
     }
 }

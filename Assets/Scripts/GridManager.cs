@@ -10,11 +10,14 @@ public class GridManager : MonoBehaviour
     private static GridManager _instance;
     public static GridManager Instance { get { return _instance; } }
 
+    //Assigning via inspector
     [SerializeField] private GridTile gridTilePrefab = null;
     [SerializeField] private Transform gridContainer = null;
+    [SerializeField] private Tilemap groundTilemap = null;
+    [SerializeField] private Tilemap wallsTilemap = null;
 
-    public List<Vector3Int> tilesLocationList = new List<Vector3Int>();
-
+    //Other
+    [HideInInspector] public List<Vector3Int> tilesLocationList = new List<Vector3Int>();
     public Dictionary<Vector2Int, GridTile> gridTilesMap = new Dictionary<Vector2Int, GridTile>();
     void Awake()
     {
@@ -32,15 +35,15 @@ public class GridManager : MonoBehaviour
 
     public void GenerateGrid()
     {
-        Tilemap tilemap = gameObject.GetComponentInChildren<Tilemap>();
-        BoundsInt bounds = tilemap.cellBounds;
+        groundTilemap = gameObject.GetComponentInChildren<Tilemap>();
+        BoundsInt bounds = groundTilemap.cellBounds;
         for (int x = bounds.min.x; x < bounds.max.x; x++)
         {
             for (int y = bounds.min.y; y < bounds.max.y; y++)
             {
                 Vector3Int tileLocation = new Vector3Int(x, y, 0);
                 Vector2Int tileKey = new Vector2Int(x, y);
-                if (tilemap.HasTile(tileLocation) && !gridTilesMap.ContainsKey(tileKey))
+                if (groundTilemap.HasTile(tileLocation) && !gridTilesMap.ContainsKey(tileKey))
                 {
                     var gridTile = Instantiate(gridTilePrefab, tileLocation, Quaternion.identity, gridContainer);
 
