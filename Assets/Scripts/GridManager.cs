@@ -13,9 +13,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GridTile gridTilePrefab = null;
     [SerializeField] private Transform gridContainer = null;
 
-    public List<Vector3> tilesLocationList = new List<Vector3>();
+    public List<Vector3Int> tilesLocationList = new List<Vector3Int>();
 
-
+    public Dictionary<Vector2Int, GridTile> gridTilesMap = new Dictionary<Vector2Int, GridTile>();
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -26,6 +26,7 @@ public class GridManager : MonoBehaviour
         {
             _instance = this;
         }
+
         GenerateGrid();
     }
 
@@ -38,30 +39,19 @@ public class GridManager : MonoBehaviour
             for (int y = bounds.min.y; y < bounds.max.y; y++)
             {
                 Vector3Int tileLocation = new Vector3Int(x, y, 0);
-                if (tilemap.HasTile(tileLocation))
+                Vector2Int tileKey = new Vector2Int(x, y);
+                if (tilemap.HasTile(tileLocation) && !gridTilesMap.ContainsKey(tileKey))
                 {
                     var gridTile = Instantiate(gridTilePrefab, tileLocation, Quaternion.identity, gridContainer);
+
+                    gridTile.gridTileLocation = tileLocation;
                     tilesLocationList.Add(tileLocation);
+                    gridTilesMap.Add(tileKey, gridTile);
                 }
             }
         }
     }
-    public Vector3 CheckNewTile(Vector3 currentTile, Vector3 nextTile)
-    {
-        foreach (Vector3 tileLocation in tilesLocationList)
-        {
-            if (nextTile == tileLocation)
-            {
-                return nextTile;
-            }
-        }
-        return currentTile;
-    }
-
-    public static implicit operator GridManager(GameManager v)
-    {
-        throw new NotImplementedException();
-    }
+    
 }
 
 

@@ -11,26 +11,35 @@ public class GameManager : MonoBehaviour
 
     #region Assignments
     [Header("Assignments")]
+    //Assigning via inspector
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private GameObject moveIndicator;
+    //Assigning via code
+    [HideInInspector] public GameObject player; // not using now
+    public GridTile currentPlayerTile;
     [Space]
     #endregion
 
+    /*[Header("General Setting")]
+    public float LevelTimeScale = 1;*/
     [Header("Beats Settings")]
     public bool isBeat;
     public bool isHalfbeat;
-    [SerializeField] private float beatPerMinute = 70;
+    public float beatPerMinute = 70;
     [Range(0.1f,0.3f)] [SerializeField] private float mistakeMarginBeforeNote = 0.1f; // fraction of time between beat and halfbeat to give mistake margin before and after note
     [Range(0f, 0.099f)] [SerializeField] private float audioDelay = 0;
     Coroutine tactCoroutine;
     [Space]
 
-    [Header("Debug")]
-    [SerializeField] private float timeBetweenHalfbeats;
-    [SerializeField] private float mistakeMarginTime;
-    [SerializeField] private float mistakeTime;
+    [HideInInspector] public float timeBetweenHalfbeats;
+    private float mistakeMarginTime;
+    private float mistakeTime;
     void Awake()
     {
+        #region Assigning via code
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        #endregion
         #region Instance check
         if (_instance != null && _instance != this)
         {
@@ -41,16 +50,15 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
         #endregion
-
+        #region Calculation to start beat
         timeBetweenHalfbeats = 60 / beatPerMinute / 2; // 2 x maring + timeBetweenHalfbeat
         mistakeMarginTime = timeBetweenHalfbeats * mistakeMarginBeforeNote;
         mistakeTime = timeBetweenHalfbeats - mistakeMarginTime * 2;
-
         tactCoroutine = StartCoroutine(Tact());
-
+        #endregion
     }
-
-
+    
+    #region Beat looping and beat actions
     private IEnumerator Tact()
     {
         BeatReactionTimeStart();                        //From now player can make boost shot and move
@@ -97,9 +105,18 @@ public class GameManager : MonoBehaviour
     {
         audioManager.PlayMetronomBeat();
         StartCoroutine(IndicatorDelay());
+
+        if (EnemiesManager.Instance.enemiesArray.Length > 0)
+        {
+            EnemiesManager.Instance.MoveAllEnemies();
+
+        }
     }
-    private void OnHalfbeat()
+        private void OnHalfbeat()
     {
         
     }
+    #endregion
+
+
 }
