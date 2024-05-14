@@ -157,6 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8039790637553377946}
   - component: {fileID: 5277859874623715224}
+  - component: {fileID: 5086570242520952272}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -196,3 +197,18 @@ MonoBehaviour:
   ProjectileSpwanPoint: {fileID: 9198453076666402630}
   projectiles:
   - {fileID: 4247198442638173686, guid: 0c566b76d97e5ff4db07afbcc0d17f78, type: 3}
+--- !u!114 &5086570242520952272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7075378914132075686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda949343ed22e942a38caebc3ae38bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 10
+  hPHolder: 0
+  debugDamage: 0

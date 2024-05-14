@@ -64,6 +64,11 @@ public class GameManager : MonoBehaviour
         return Instantiate(moveIndicator, player.transform.position, Quaternion.identity, player.transform);
     }
 
+    public void GameOver()
+    {
+        Debug.Log("Œe ci zdech³o, przykro mi");
+    }
+
     #region Beat looping and beat actions
     private IEnumerator Tact()
     {

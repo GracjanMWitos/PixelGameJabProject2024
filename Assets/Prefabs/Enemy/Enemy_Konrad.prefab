@@ -129,9 +129,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215397f6987a29e4b8fad3d3f067c6af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTile: {fileID: 0}
-  timeBetweenMoves: 0
-  moveSpeed: 10
-  currentEnemyTile: {fileID: 0}
+  damage: 1
   numberOfMovesPerBeat: 1
-  path: []

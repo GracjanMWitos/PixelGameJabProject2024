@@ -9,18 +9,23 @@ public class EnemyController : MonoBehaviour
     //Assigning via code
     private GridTile playerTile;
     private GridTile currentEnemyTile;
+    private HealthController playerHealthController;
     private float timeBetweenMoves;
 
     //Variables without assigning
     [SerializeField] private int damage;
+
     private PathFinding pathFinding;
+    private GridTile attackTargetGridTile;
     private List<GridTile> path = new List<GridTile>();
     private bool attackPerperation;
+
     [HideInInspector] public int numberOfMovesPerBeat = 1;
     private void Start()
     {
         pathFinding = new PathFinding();
         currentEnemyTile = GetEnemyTile(transform.position);
+        playerHealthController = GameManager.Instance.player.GetComponent<HealthController>();
     }
 
     private GridTile GetEnemyTile(Vector3 position)
@@ -56,16 +61,19 @@ public class EnemyController : MonoBehaviour
         }
         else if (attackPerperation)
         {
-            DealDamageToPlayer(damage);
+            DealDamageToPlayer();
             attackPerperation = false;
         }  
     }
-    private void DealDamageToPlayer(int damage)
+    private void DealDamageToPlayer()
     {
-        Debug.Log("dealing damage");
+        if (path[0] == playerTile)
+        {
+            playerHealthController.TakeDamage(damage);
+        }
     }
 
-    private void EnemyMove()
+        private void EnemyMove()
     {
         timeBetweenMoves = GameManager.Instance.timeBetweenHalfbeats;
         transform.position = Vector3.Lerp(transform.position, SelectNextMove(), timeBetweenMoves / Time.deltaTime);
