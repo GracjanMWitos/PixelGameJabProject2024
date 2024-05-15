@@ -50,7 +50,7 @@ MonoBehaviour:
   currentPlayerTile: {fileID: 0}
   isBeat: 0
   isHalfbeat: 0
-  beatPerMinute: 80
+  beatPerMinute: 100
   mistakeMargin: 2
   reactionCheckDelay: 0
   audioDelay: 0.15
