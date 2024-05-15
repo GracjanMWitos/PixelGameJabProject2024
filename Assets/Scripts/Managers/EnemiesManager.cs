@@ -7,8 +7,8 @@ public class EnemiesManager : MonoBehaviour
     private static EnemiesManager _instance;
     public static EnemiesManager Instance { get { return _instance; } }
 
-    public Transform[] enemiesArray;
-    private EnemyController[] enemyControllers;
+    //public Transform[] enemiesArray;
+    public List<EnemyController> enemyControllers = new List<EnemyController>();
     [SerializeField] private Transform currentEnemiesGroupTransform;
 
     void Awake()
@@ -29,23 +29,27 @@ public class EnemiesManager : MonoBehaviour
     }
     private void Start()
     {
-        RefreshEnemiesArray();
+        RefreshEnemiesList();
     }
-    public Transform[] RefreshEnemiesArray()
+    public void RefreshEnemiesList()
     {
-        Transform[] tempEnemiesArray = new Transform[currentEnemiesGroupTransform.childCount];
-        for (int i = 0; i < currentEnemiesGroupTransform.childCount; i++)
+        enemyControllers.Clear();
+        EnemyController[] tempEnemiesArray = currentEnemiesGroupTransform.GetComponentsInChildren<EnemyController>();
+        foreach (EnemyController enemyController in tempEnemiesArray)
         {
-            tempEnemiesArray[i] = currentEnemiesGroupTransform.GetChild(i);
+            enemyControllers.Add(enemyController);
         }
-        enemiesArray = tempEnemiesArray;
-        return enemiesArray;
+
     }
     public void ExecuteEnemiesActions()
     {
-        for (int i = 0; i < currentEnemiesGroupTransform.childCount; i++)
-        {
-            enemiesArray[i].GetComponent<EnemyController>().ExecuteEnemyAction();
+        RefreshEnemiesList();
+        foreach (EnemyController enemyController in enemyControllers)
+        { 
+            if (enemyController != null)
+            {
+                enemyController.ExecuteEnemyAction();
+            }
         }
     }
 }

@@ -17,6 +17,9 @@ public class SoundsGroup
 
 public class AudioManager : MonoBehaviour
 {
+    private static AudioManager _instance;
+    public static AudioManager Instance { get { return _instance; } }
+
     public List<SoundsGroup> soundsGroup = new List<SoundsGroup>();
     private AudioSource audioSource;
     public AudioInBioms audioInCurrentBiom;
@@ -29,7 +32,16 @@ public class AudioManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         SetSoundsGroup();
 
-
+        #region Instance check
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+        #endregion
 
     }
     public void SetSoundsGroup()
@@ -43,8 +55,16 @@ public class AudioManager : MonoBehaviour
         }
 
     }
+    public void PlayKick()
+    {
+        audioSource.PlayOneShot(soundsGroup[0].moveSound);
+    }
+    public void PlayHiHat()
+    {
+        audioSource.PlayOneShot(soundsGroup[0].skillSound1);
+    }
     public void PlayMetronomBeat()
     {
-        audioSource.PlayOneShot(beatSound);
+        audioSource.PlayOneShot(soundsGroup[0].ambient);
     }
 }

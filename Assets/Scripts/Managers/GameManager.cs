@@ -26,15 +26,18 @@ public class GameManager : MonoBehaviour
     public bool isBeat;
     public bool isHalfbeat;
     public float beatPerMinute = 70;
-    [Range(0.2f, 0.3f)] [SerializeField] private float mistakeMarginBeforeNote = 0.1f; // fraction of time between beat and halfbeat to give mistake margin before and after note
-    [Range(0f, 0.2f)] [SerializeField] private float indicatorDelay = 0;
-    [Range(0f, 0.2f)] [SerializeField] private float audioDelay = 0;
+    [SerializeField] private float mistakeMargin = 0.1f; // fraction of time between beat and halfbeat to give mistake margin before and after note
+    [SerializeField] private float reactionCheckDelay = 0;
+    [Range(0f, 2f)] [SerializeField] private float audioDelay = 0;
+    public float notesDelay;
     Coroutine tactCoroutine;
     [Space]
 
-    [HideInInspector] public float timeBetweenHalfbeats;
-    private float mistakeMarginTime;
-    private float mistakeTime;
+    public float timeBetweenHalfbeats;
+
+    public float timer1 = -1;
+    public float timer2;
+    float timer3 = 0;
     void Awake()
     {
         #region Instance check
@@ -48,67 +51,421 @@ public class GameManager : MonoBehaviour
         }
         #endregion
     }
+    #region Level Starting
     public void StartLevel()
     {
         moveIndicator = AttachMoveIndicatorToPlayer();
-        #region Calculation to start beat
-        timeBetweenHalfbeats = 60 / beatPerMinute / 2; // 2 x maring + timeBetweenHalfbeat
-        mistakeMarginTime = timeBetweenHalfbeats * mistakeMarginBeforeNote;
-        mistakeTime = timeBetweenHalfbeats - mistakeMarginTime * 2;
-        tactCoroutine = StartCoroutine(Tact());
-        #endregion
-    }
 
+        #region Calculation for loops
+
+        timeBetweenHalfbeats = (60/ beatPerMinute)/2 ;
+        mistakeMargin = timeBetweenHalfbeats / mistakeMargin;
+        #endregion
+
+        StartCoroutine(Loop());
+
+    }
     private GameObject AttachMoveIndicatorToPlayer()
     {
         return Instantiate(moveIndicator, player.transform.position, Quaternion.identity, player.transform);
     }
-
+    #endregion
     public void GameOver()
     {
         Debug.Log("Œe ci zdech³o, przykro mi");
     }
-
-    #region Beat looping and beat actions
-    private IEnumerator Tact()
+    private void Update()
     {
-        BeatReactionTimeStart();                        //From now player can make boost shot and move
-        yield return new WaitForSeconds(mistakeMarginTime - DelayScaling(indicatorDelay)); //Time before metronom sound
-        OnBeat();                                       //Make metronom sound and show beat indicator
-        yield return new WaitForSeconds(mistakeMarginTime + DelayScaling(indicatorDelay)); //TimeAfter metronom sound
-        BeatReactionTimeEnd();                          //Fromm now player cannot move and make boost shot
-        //Ater player reaction time are enemies moves
-        EnemyTurn();
-
-        yield return new WaitForSeconds(mistakeTime);   //Time between beat margin's end and halfbeat margin's start
-
-        HalfbeatReactionTimeStart();                    //From now player can make normal shot without breaking combo and make halfbeat check from skill beats combination
-        yield return new WaitForSeconds(mistakeMarginTime - DelayScaling(indicatorDelay)); //Time before halfbeat
-        OnHalfbeat();                                   //Sgow halfbeat indicator
-        yield return new WaitForSeconds(mistakeMarginTime + DelayScaling(indicatorDelay)); //Time after halfbeat
-        HalfbeatReactionTimeEnd();                      // From now player cannot make normal shot without breaking combo and make halfbeat check from skill beats combination
-
-        yield return new WaitForSeconds(mistakeTime);   //Time between halfbeat margin's end and next cycle's beat margin's start
-        tactCoroutine = StartCoroutine(Tact());
+        if (timer1 >= 0)
+        {
+            timer1 += Time.deltaTime;
+        }
     }
-    private float DelayScaling(float delay)
+
+    private IEnumerator Loop()
     {
-        delay *= timeBetweenHalfbeats;
-        return delay;
-    }
-    private IEnumerator BeatAudioDelay()
-    {
-        yield return new WaitForSeconds(DelayScaling(audioDelay));
+
+        #region 1 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        timer1 = 0;
         audioManager.PlayMetronomBeat();
 
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();                          
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+        #endregion
+
+        #region 2 beat and halfbeat
+        BeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnBeat();
+        EnemyTurn();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        BeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
+
+        HalfbeatReactionTimeStart();
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+
+        OnHalfbeat();
+
+        yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
+        HalfbeatReactionTimeEnd();
+
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin - mistakeMargin/notesDelay);
+        #endregion
+
+        Debug.Log(timer1);
+        StartCoroutine(Loop());
     }
+
+    #region Reactions Methods
     private void BeatReactionTimeStart()
     {
         isBeat = true;
         moveIndicator.SetActive(true);
-        
     }
-    
     private void BeatReactionTimeEnd()
     {
         isBeat = false;
@@ -121,24 +478,27 @@ public class GameManager : MonoBehaviour
     private void HalfbeatReactionTimeEnd()
     {
         isHalfbeat = false;
+
     }
+    #endregion
     private void OnBeat()
     {
-        StartCoroutine(BeatAudioDelay());
-    }
-        private void OnHalfbeat()
-    {
         
+        GUIManager.Instance.MoveNotesToNextTarget();
+    }
+    private void OnHalfbeat()
+    {
+        GUIManager.Instance.MoveNotesToNextTarget();
+
     }
     private void EnemyTurn()
     {
-        if (EnemiesManager.Instance.enemiesArray.Length > 0)
+        if (EnemiesManager.Instance.enemyControllers.Count > 0)
         {
             EnemiesManager.Instance.ExecuteEnemiesActions();
 
         }
     }
-    #endregion
 
 
 }

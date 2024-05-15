@@ -25,7 +25,6 @@ public class EnemyController : MonoBehaviour
     {
         pathFinding = new PathFinding();
         currentEnemyTile = GetEnemyTile(transform.position);
-        playerHealthController = GameManager.Instance.player.GetComponent<HealthController>();
     }
 
     private GridTile GetEnemyTile(Vector3 position)
@@ -51,11 +50,9 @@ public class EnemyController : MonoBehaviour
     }
     public void ExecuteEnemyAction()
     {
-        if (!attackPerperation)
-        {
-            SelectNewPath();
-        }
-        if (path[0] != playerTile)
+        SelectNewPath();
+
+        if (path[0] != playerTile && !attackPerperation)
         {
             EnemyMove();
         }
@@ -63,12 +60,21 @@ public class EnemyController : MonoBehaviour
         {
             DealDamageToPlayer();
             attackPerperation = false;
-        }  
+            return;
+        }
+        else if (path[0] == playerTile)
+        {
+            attackPerperation = true;
+        }
+
     }
     private void DealDamageToPlayer()
     {
         if (path[0] == playerTile)
         {
+            if(playerHealthController == null)
+                playerHealthController = GameManager.Instance.player.GetComponent<HealthController>();
+
             playerHealthController.TakeDamage(damage);
         }
     }

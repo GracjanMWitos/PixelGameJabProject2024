@@ -45,12 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 0}
-  moveIndicator: {fileID: 0}
+  moveIndicator: {fileID: 5738066883984523805, guid: 2f82b48a63b855c428068ef30b5c0731, type: 3}
   player: {fileID: 0}
   currentPlayerTile: {fileID: 0}
   isBeat: 0
   isHalfbeat: 0
-  beatPerMinute: 88
-  mistakeMarginBeforeNote: 0.25
-  audioDelay: 0.0863
+  beatPerMinute: 80
+  mistakeMargin: 2
+  reactionCheckDelay: 0
+  audioDelay: 0.15
+  notesDelay: 2
   timeBetweenHalfbeats: 0
+  timer1: 0
+  timer2: 0

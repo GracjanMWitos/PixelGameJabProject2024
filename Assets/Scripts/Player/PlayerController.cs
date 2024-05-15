@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
+
     #region Assignments
     InputActions inputActions;
     [SerializeField] private Transform ProjectileSpwanPoint;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         inputActions = new InputActions();
+
     }
     private void Start()
     {
@@ -26,6 +28,7 @@ public class PlayerController : MonoBehaviour
             currentTile = transform.position;
             Vector3 nextTile = new Vector3(currentTile.x + xAxisValue, currentTile.y + yAxisValue, currentTile.z);
             transform.position = CheckNextTile(currentTile, nextTile);
+            AudioManager.Instance.PlayKick();
             GetPlayerTile();
         }
     }
@@ -61,6 +64,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.isHalfbeat || GameManager.Instance.isBeat)
         {
             Instantiate(projectiles[projectileIndex], ProjectileSpwanPoint.position, Quaternion.identity);
+            AudioManager.Instance.PlayHiHat();
         }
     }
     private void Update()

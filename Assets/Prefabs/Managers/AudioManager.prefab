@@ -47,12 +47,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundsGroup:
   - audioInBiom: 0
-    moveSound: {fileID: 8300000, guid: ada85cfe4d8b3164db694f4a28f65732, type: 3}
+    moveSound: {fileID: 8300000, guid: 181a33d25375c674aa27e7935b99d9ad, type: 3}
     lightAttackSound: {fileID: 8300000, guid: 0ec04609512d0d34e9f350205ff83578, type: 3}
     heavyAttackSound: {fileID: 8300000, guid: 887caa571a920f641a2353d0e18603e7, type: 3}
-    skillSound1: {fileID: 0}
+    skillSound1: {fileID: 8300000, guid: 6d8beb11311a1b740abeb0cec578dcd3, type: 3}
     skillSound2: {fileID: 0}
-    ambient: {fileID: 0}
+    ambient: {fileID: 8300000, guid: 02a35767dd68caf408d36587a48c2235, type: 3}
   audioInCurrentBiom: 0
   beatSound: {fileID: 8300000, guid: f0fdba27b95bbd447afd4a1085e5462f, type: 3}
   currentSoundGroup:
@@ -73,9 +73,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.742
+  m_audioClip: {fileID: 8300000, guid: 02a35767dd68caf408d36587a48c2235, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -83,7 +83,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 21
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0

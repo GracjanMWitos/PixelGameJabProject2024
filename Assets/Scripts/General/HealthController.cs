@@ -52,7 +52,15 @@ public class HealthController : MonoBehaviour
     {
         if (currentHealthPoints <= 0)
         {
-            GameManager.Instance.GameOver();
+            if (hPHolder == HealthPointHolder.Player)
+            {
+                GameManager.Instance.GameOver();
+            }
+            if (hPHolder == HealthPointHolder.Enemy)
+            {
+                EnemiesManager.Instance.enemyControllers.Remove(GetComponent<EnemyController>());
+                Destroy(gameObject);
+            }
         }
     }
     private void Update()
