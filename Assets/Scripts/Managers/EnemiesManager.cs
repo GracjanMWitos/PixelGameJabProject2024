@@ -27,16 +27,13 @@ public class EnemiesManager : MonoBehaviour
 
 
     }
-    private void Start()
-    {
-        RefreshEnemiesList();
-    }
     public void RefreshEnemiesList()
     {
         enemyControllers.Clear();
         EnemyController[] tempEnemiesArray = currentEnemiesGroupTransform.GetComponentsInChildren<EnemyController>();
         foreach (EnemyController enemyController in tempEnemiesArray)
         {
+            enemyController.playerTile = GameManager.Instance.currentPlayerTile;
             enemyControllers.Add(enemyController);
         }
 

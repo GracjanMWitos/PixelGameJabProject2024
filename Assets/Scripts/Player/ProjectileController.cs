@@ -23,15 +23,23 @@ public class ProjectileController : MonoBehaviour
     }
     void Update()
     {
-        Vector2 direction = target.position - transform.position;
-        projectileRB.velocity = new Vector2(direction.x, direction.y).normalized * projectileSpeed * gameSpeed * Time.deltaTime;
+        Move();
         if (Vector2.Distance(transform.position, target.position) < destoyDistanceBeforeTarget)
         {
-            target.GetComponent<HealthController>().TakeDamage(projectileDamage);
-            Destroy(gameObject);
+            DestroyProjectile();
         }
     }
-
+    private void Move()
+    {
+        Vector2 direction = target.position - transform.position;
+        projectileRB.AddForce(direction * projectileSpeed/4);
+        projectileRB.velocity = new Vector2(direction.x, direction.y).normalized * projectileSpeed * gameSpeed * Time.deltaTime;
+    }
+    private void DestroyProjectile()
+    {
+        target.GetComponent<HealthController>().TakeDamage(projectileDamage);
+        Destroy(gameObject);
+    }
     private Transform ClosestTarget()
     {
         List<EnemyController> arrayOfEnemiesToCheck = EnemiesManager.Instance.enemyControllers;
@@ -54,5 +62,10 @@ public class ProjectileController : MonoBehaviour
     public void SelectTarget()
     {
         target = ClosestTarget();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        DestroyProjectile();
     }
 }

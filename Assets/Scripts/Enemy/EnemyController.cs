@@ -7,8 +7,8 @@ public class EnemyController : MonoBehaviour
     //Assigning via inspector
 
     //Assigning via code
-    private GridTile playerTile;
-    private GridTile currentEnemyTile;
+    public GridTile playerTile;
+    [SerializeField] private GridTile currentEnemyTile;
     private HealthController playerHealthController;
     private float timeBetweenMoves;
 
@@ -43,30 +43,30 @@ public class EnemyController : MonoBehaviour
     }
     private void SelectNewPath()
     {
-        path.Clear();
-        playerTile = GameManager.Instance.currentPlayerTile;
-        path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles that creating path to player
-
+            path.Clear();
+            playerTile = GameManager.Instance.currentPlayerTile;
+            path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles that creating path to player
     }
     public void ExecuteEnemyAction()
     {
-        SelectNewPath();
-
-        if (path[0] != playerTile && !attackPerperation)
+        if (currentEnemyTile != null && playerTile != null)
         {
-            EnemyMove();
+            SelectNewPath();
+            if (path[0] != playerTile && !attackPerperation)
+            {
+                EnemyMove();
+            }
+            else if (attackPerperation)
+            {
+                DealDamageToPlayer();
+                attackPerperation = false;
+                return;
+            }
+            else if (path[0] == playerTile)
+            {
+                attackPerperation = true;
+            }
         }
-        else if (attackPerperation)
-        {
-            DealDamageToPlayer();
-            attackPerperation = false;
-            return;
-        }
-        else if (path[0] == playerTile)
-        {
-            attackPerperation = true;
-        }
-
     }
     private void DealDamageToPlayer()
     {

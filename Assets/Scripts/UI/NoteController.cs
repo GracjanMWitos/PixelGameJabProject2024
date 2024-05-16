@@ -11,7 +11,7 @@ public class NoteController : MonoBehaviour
 
     private void MoveNote()
     {
-        StartCoroutine(Extns.Tweeng(GameManager.Instance.notesDelay, GameManager.Instance.timeBetweenHalfbeats, 
+        StartCoroutine(Extns.Tweeng(GameManager.Instance.timeBetweenHalfbeats, 
             (p) => transform.position = p, 
             previousTargetTransform.position, 
             currentTargetTransform.position)

@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     Vector3 currentTile;
-
+    public bool canMove;
+    public bool canShot;
     private void Awake()
     {
         inputActions = new InputActions();
@@ -23,16 +24,22 @@ public class PlayerController : MonoBehaviour
     }
     private void Move(int xAxisValue, int yAxisValue)
     {
-        if (GameManager.Instance.isBeat)
+        if (GameManager.Instance.isBeat && canMove)
         {
             currentTile = transform.position;
             Vector3 nextTile = new Vector3(currentTile.x + xAxisValue, currentTile.y + yAxisValue, currentTile.z);
             transform.position = CheckNextTile(currentTile, nextTile);
             AudioManager.Instance.PlayKick();
-            GetPlayerTile();
+            GameManager.Instance.currentPlayerTile = GetPlayerTile();
+
+            canMove = false;
+        }
+        else
+        {
+            canMove = false;
         }
     }
-    private GridTile GetPlayerTile()
+    public GridTile GetPlayerTile()
     {
         GridTile currentTile = null;
         var playerTileKey = new Vector2Int((int)transform.position.x, (int)transform.position.y);
@@ -42,7 +49,6 @@ public class PlayerController : MonoBehaviour
             if (GridManager.Instance.gridTilesMap.ContainsKey(playerTileKey))
             {
                 currentTile = GridManager.Instance.gridTilesMap[playerTileKey];
-                GameManager.Instance.currentPlayerTile = currentTile; //Update player tile in Game Manager
             }
         }
         return currentTile;
@@ -59,12 +65,18 @@ public class PlayerController : MonoBehaviour
         return currentTile;
     }
 
-    private void OnHitNote(int projectileIndex)
+    private void Shot(int projectileIndex)
     {
-        if (GameManager.Instance.isHalfbeat || GameManager.Instance.isBeat)
+        if ((GameManager.Instance.isHalfbeat || GameManager.Instance.isBeat) && canShot)
         {
             Instantiate(projectiles[projectileIndex], ProjectileSpwanPoint.position, Quaternion.identity);
             AudioManager.Instance.PlayHiHat();
+
+            canShot = false;
+        }
+        else
+        {
+            canShot = false;
         }
     }
     private void Update()
@@ -76,7 +88,7 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.MoveRight.performed += ctx => Move(1, 0);
         #endregion
 
-        inputActions.Player.HitNote.performed += ctx => OnHitNote(0);
+        inputActions.Player.HitNote.performed += ctx => Shot(0);
     }
     #region Enable Disable
     private void OnEnable()

@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1496146647356577847}
   - component: {fileID: 6276286171035536557}
   m_Layer: 0
-  m_Name: Enemy_Konrad
+  m_Name: GiantEnemyKonrad_Tier3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

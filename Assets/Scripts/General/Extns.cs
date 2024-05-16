@@ -4,10 +4,9 @@ using UnityEngine;
 
 public static class Extns
 {
-    public static IEnumerator Tweeng(this float delay, float duration,
+    public static IEnumerator Tweeng(this float duration,
                System.Action<float> var, float start, float end)
     {
-        yield return new WaitForSeconds(delay);
         float sT = Time.time;
         float eT = sT + duration;
 
@@ -21,10 +20,9 @@ public static class Extns
         var(end);
     }
 
-    public static IEnumerator Tweeng(this float delay, float duration,
+    public static IEnumerator Tweeng(this float duration,
                System.Action<Vector3> var, Vector3 start, Vector3 end)
     {
-        yield return new WaitForSeconds(delay);
         float sT = Time.time;
         float eT = sT + duration;
 
