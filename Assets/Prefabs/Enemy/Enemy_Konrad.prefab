@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 986921317582998275}
   - component: {fileID: 1496146647356577847}
+  - component: {fileID: 6276286171035536557}
   m_Layer: 0
   m_Name: Enemy_Konrad
   m_TagString: Enemy
@@ -131,3 +132,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   numberOfMovesPerBeat: 1
+--- !u!114 &6276286171035536557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5995515233035693222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda949343ed22e942a38caebc3ae38bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 3
+  hPHolder: 1
+  debugMode: 0
+  debugDamage: 0
+  debugHeal: 0

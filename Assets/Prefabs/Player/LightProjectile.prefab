@@ -101,7 +101,7 @@ MonoBehaviour:
   target: {fileID: 0}
   projectileDamage: 1
   projectileSpeed: 80
-  destoyDistanceBeforeTarget: 0.5
+  destoyDistanceBeforeTarget: 1
 --- !u!50 &2668328145911235329
 Rigidbody2D:
   serializedVersion: 4

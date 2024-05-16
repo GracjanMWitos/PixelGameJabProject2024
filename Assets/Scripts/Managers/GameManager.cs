@@ -34,10 +34,6 @@ public class GameManager : MonoBehaviour
     [Space]
 
     public float timeBetweenHalfbeats;
-
-    public float timer1 = -1;
-    public float timer2;
-    float timer3 = 0;
     void Awake()
     {
         #region Instance check
@@ -51,6 +47,7 @@ public class GameManager : MonoBehaviour
         }
         #endregion
     }
+    
     #region Level Starting
     public void StartLevel()
     {
@@ -74,13 +71,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Œe ci zdech³o, przykro mi");
     }
-    private void Update()
-    {
-        if (timer1 >= 0)
-        {
-            timer1 += Time.deltaTime;
-        }
-    }
 
     private IEnumerator Loop()
     {
@@ -89,7 +79,6 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        timer1 = 0;
         audioManager.PlayMetronomBeat();
 
         OnBeat();
@@ -134,7 +123,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 3 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -157,7 +146,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 4 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -180,7 +169,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 5 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -203,7 +192,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 6 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -226,7 +215,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 7 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -249,7 +238,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 8 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -272,7 +261,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 9 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -295,7 +284,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 10 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -318,7 +307,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 11 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -341,7 +330,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 12 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -364,7 +353,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 13 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -387,7 +376,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 14 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -410,7 +399,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 15 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -433,7 +422,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin);
         #endregion
 
-        #region 2 beat and halfbeat
+        #region 16 beat and halfbeat
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
@@ -456,7 +445,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - mistakeMargin - mistakeMargin/notesDelay);
         #endregion
 
-        Debug.Log(timer1);
         StartCoroutine(Loop());
     }
 
