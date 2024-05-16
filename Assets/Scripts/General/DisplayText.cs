@@ -29,7 +29,15 @@ public class DisplayText : MonoBehaviour
     }
     public void NextText()
     {
-        index++;
+
+        if (index < textBox.Count - 1)
+        {
+            index++;
+        }
+        else
+        {
+            Debug.Log("That was last text box");
+        }
         textMeshPro.text = textBox[index].textToDisplay;
     }
 }
