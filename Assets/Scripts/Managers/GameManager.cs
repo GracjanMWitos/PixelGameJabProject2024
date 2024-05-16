@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 
 public class GameManager : MonoBehaviour
@@ -14,6 +15,8 @@ public class GameManager : MonoBehaviour
     //Assigning via inspector
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private GameObject moveIndicator;
+    [SerializeField] private PlayerSpawner playerSpawner;
+    [SerializeField] private CinemachineVirtualCamera cinemachine;
 
     //Assigning via code
     [HideInInspector] public GameObject player;
@@ -51,7 +54,12 @@ public class GameManager : MonoBehaviour
     #region Level Starting
     public void StartLevel()
     {
+        #region Spawn player and set his attachment
+
+        player = playerSpawner.SpawnPlayer();
         moveIndicator = AttachMoveIndicatorToPlayer();
+        cinemachine.Follow = player.transform;
+        #endregion
 
         #region Calculation for loops
 
