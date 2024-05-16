@@ -13,7 +13,7 @@ public class DisplayText : MonoBehaviour
 {
     [SerializeField] List<TextBox> textBox = new List<TextBox>();
     private TextMeshProUGUI textMeshPro;
-    public int index;
+    private int index = -1;;
     public bool nextText;
     private void Awake()
     {
