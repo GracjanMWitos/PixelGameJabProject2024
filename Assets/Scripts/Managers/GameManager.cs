@@ -81,8 +81,8 @@ public class GameManager : MonoBehaviour
 
         audioManager.PlayMetronomBeat();
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -104,8 +104,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -127,8 +127,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -150,8 +150,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -173,8 +173,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -196,8 +196,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -219,8 +219,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -242,8 +242,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -265,8 +265,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -288,8 +288,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -311,8 +311,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -334,8 +334,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -357,8 +357,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -380,8 +380,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -403,8 +403,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();
@@ -426,8 +426,8 @@ public class GameManager : MonoBehaviour
         BeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
 
-        OnBeat();
         EnemyTurn();
+        OnBeat();
 
         yield return new WaitForSecondsRealtime(mistakeMargin / notesDelay);
         BeatReactionTimeEnd();

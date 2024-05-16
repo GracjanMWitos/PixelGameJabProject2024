@@ -24,7 +24,7 @@ public class DisplayText : MonoBehaviour
         if (nextText)
         {
             NextText();
-            nextText = false;
+            
         }
     }
     public void NextText()
@@ -39,5 +39,6 @@ public class DisplayText : MonoBehaviour
             Debug.Log("That was last text box");
         }
         textMeshPro.text = textBox[index].textToDisplay;
+        nextText = false;
     }
 }
