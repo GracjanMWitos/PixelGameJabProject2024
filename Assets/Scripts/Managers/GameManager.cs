@@ -105,6 +105,12 @@ public class GameManager : MonoBehaviour
         return Instantiate(moveIndicator, player.transform.position, Quaternion.identity, player.transform);
     }
     #endregion
+
+    public void FinishLevel()
+    {
+
+    }
+
     public void GameOver()
     {
         Debug.Log("Œe ci zdech³o, przykro mi");
@@ -491,7 +497,7 @@ public class GameManager : MonoBehaviour
         #endregion
     }
 
-    #region Reactions Methods
+    #region Reaction Times Methods
     private void BeatReactionTimeStart()
     {
         isBeat = true;
@@ -514,6 +520,8 @@ public class GameManager : MonoBehaviour
         playerController.canShot = true;
     }
     #endregion
+
+    #region Regular events
     private void OnBeat()
     {
         
@@ -532,6 +540,6 @@ public class GameManager : MonoBehaviour
 
         }
     }
-
+    #endregion
 
 }
