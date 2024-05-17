@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using Cinemachine;
-
+using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,36 +22,35 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject player;
     [HideInInspector] public GridTile currentPlayerTile;
     private PlayerController playerController;
-
-    public bool start;
     [Space]
 
     #endregion
 
-    [Header("Beats Settings")]
-    public bool isBeat;
-    public bool isHalfbeat;
-    public float beatPerMinute = 70;
+    [HideInInspector] public bool isBeat;
+    [HideInInspector] public bool isHalfbeat;
 
+    [Header("Beats Settings")]
+    public float beatPerMinute = 70;
     [Range(1f,3f)][SerializeField] private float marginAsFractionOfTime = 2f; // fraction of time between beat and halfbeat to give mistake margin before and after note
-    private float marginTime;
     [Range(0.125f, 0.875f)] [SerializeField] private float reactionCheckBalance = 0.75f;
+
+    [HideInInspector] public float timeBetweenHalfbeats;
+    private float marginTime;
     private float timeOfMarginBeforeNote;
     private float timeOfMarginAfterNote;
-
-    [SerializeField] private float loopingDelay = 0;
-    private float loopingDelayPerBeat;
-    public float audioDelay;
-
     [Space]
+    public float audioDelay;
+    public float millisecondsOfLoopActivationSpeedUp;
+    private float loopLenght = 9.6f;
+    private Stopwatch timer = new Stopwatch();
 
-    public float timeBetweenHalfbeats;
     private void Update()
     {
-        if (start)
+        if (timer.Elapsed.TotalMilliseconds >= (loopLenght * 1000) - millisecondsOfLoopActivationSpeedUp)
         {
-            StartLevel();
-            start = false;
+            Debug.Log(timer.Elapsed.TotalMilliseconds);
+            StartCoroutine(Loop());
+            timer.Reset();
         }
     }
     void Awake()
@@ -67,7 +66,10 @@ public class GameManager : MonoBehaviour
         }
         #endregion
     }
-    
+    private void Start()
+    {
+        StartLevel();
+    }
     #region Level Starting
     public void StartLevel()
     {
@@ -75,7 +77,7 @@ public class GameManager : MonoBehaviour
 
         player = playerSpawner.SpawnPlayer();
         playerController = player.GetComponent<PlayerController>();
-        currentPlayerTile = playerController.GetPlayerTile();
+        currentPlayerTile = playerController.getGridTile.GetTile(player.transform.position);
         moveIndicator = AttachMoveIndicatorToPlayer();
         cinemachine.Follow = player.transform;
         EnemiesManager.Instance.RefreshEnemiesList();
@@ -89,7 +91,10 @@ public class GameManager : MonoBehaviour
         timeOfMarginBeforeNote = marginTime * reactionCheckBalance;
         timeOfMarginAfterNote = marginTime * (1 - reactionCheckBalance);
 
-        loopingDelayPerBeat = loopingDelay / 16;
+
+        Debug.Log("Margin time " + marginTime);
+        Debug.Log("Margin time before  " + timeOfMarginBeforeNote);
+        Debug.Log("Margin time after " + timeOfMarginAfterNote);
         #endregion
 
         StartCoroutine(Loop());
@@ -109,8 +114,9 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(audioDelay);
         audioManager.PlayMetronomBeat();
+        timer.Start();
     }
-
+    
     private IEnumerator Loop()
     {
 
@@ -126,7 +132,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -136,7 +142,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();                          
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 2 beat and halfbeat
@@ -149,7 +155,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -159,7 +165,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 3 beat and halfbeat
@@ -172,7 +178,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -182,7 +188,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 4 beat and halfbeat
@@ -195,7 +201,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -205,7 +211,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 5 beat and halfbeat
@@ -218,7 +224,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -228,7 +234,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 6 beat and halfbeat
@@ -241,7 +247,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -251,7 +257,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 7 beat and halfbeat
@@ -264,7 +270,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -274,7 +280,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 8 beat and halfbeat
@@ -287,7 +293,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -297,7 +303,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 9 beat and halfbeat
@@ -310,7 +316,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -320,7 +326,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 10 beat and halfbeat
@@ -333,7 +339,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -343,7 +349,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 11 beat and halfbeat
@@ -356,7 +362,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -366,7 +372,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 12 beat and halfbeat
@@ -379,7 +385,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -389,7 +395,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 13 beat and halfbeat
@@ -402,7 +408,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -412,7 +418,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 14 beat and halfbeat
@@ -425,7 +431,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -435,7 +441,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 15 beat and halfbeat
@@ -448,7 +454,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -458,7 +464,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
 
         #region 16 beat and halfbeat
@@ -471,7 +477,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         BeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
 
         HalfbeatReactionTimeStart();
         yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
@@ -481,10 +487,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
         HalfbeatReactionTimeEnd();
 
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime - loopingDelayPerBeat);
+        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
         #endregion
-
-        StartCoroutine(Loop());
     }
 
     #region Reactions Methods

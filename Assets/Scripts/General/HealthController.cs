@@ -5,7 +5,7 @@ using UnityEngine;
 public enum HealthPointHolder { Player, Enemy}
 public class HealthController : MonoBehaviour
 {
-    [SerializeField] private int maxHealthPoints = 10;
+    public int maxHealthPoints = 10;
     private int currentHealthPoints;
     [SerializeField] private HealthPointHolder hPHolder;
 
@@ -30,6 +30,14 @@ public class HealthController : MonoBehaviour
                 currentHealthPoints = 0;
             }
             GUIManager.Instance.LowerNumberOfHealthPointsInUI(currentHealthPoints, damage);
+        }
+        else if (hPHolder == HealthPointHolder.Enemy)
+        {
+            if (currentHealthPoints < 0)
+            {
+                damage = damage + currentHealthPoints;
+            }
+            GUIManager.Instance.LowerTotalEnemyHealthPointsCount(damage);
         }
         DeathCheck();
     }

@@ -66,6 +66,6 @@ public class ProjectileController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        DestroyProjectile();
+        Destroy(gameObject);
     }
 }

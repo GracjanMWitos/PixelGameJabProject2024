@@ -27,6 +27,19 @@ public class EnemiesManager : MonoBehaviour
 
 
     }
+    public void ActivateEnemies()
+    {
+        RefreshEnemiesList();
+
+        int totalEnemiesHealthCount = 0;
+        foreach (EnemyController enemyController in enemyControllers)
+        {
+            enemyController.isFightStarted = true;
+            enemyController.spriteRenderer.enabled = true;
+            totalEnemiesHealthCount += enemyController.GetComponent<HealthController>().maxHealthPoints;
+        }
+        GUIManager.Instance.GetEnemiesTotalHealthPointsCount(totalEnemiesHealthCount);
+    }
     public void RefreshEnemiesList()
     {
         enemyControllers.Clear();

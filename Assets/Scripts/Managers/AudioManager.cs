@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip beatSound;
     public SoundsGroup currentSoundGroup;
 
-
+    public AudioClip mainTrack;
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
             _instance = this;
         }
         #endregion
-
+        mainTrack = soundsGroup[0].ambient;
     }
     public void SetSoundsGroup()
     {

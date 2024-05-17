@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GUIManager : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private GameObject healthPointsParent;
     [SerializeField] private GameObject noteControllersParent;
     [SerializeField] private GameObject spacingIndicationParent;
+    [SerializeField] private TextMeshProUGUI totalEnemiesHPTextMeshPro;
 
+    public int totalEnemiesHealthPointsCount;
     private UIHealhPointController[] healhPointControllers;
     public NoteController[] noteControllers;
     [SerializeField] private Transform[] spacingIndications;
@@ -68,7 +71,18 @@ public class GUIManager : MonoBehaviour
             healhPointControllers[i].SetHealthPointActivityState(true);
         }
     }
+    public void GetEnemiesTotalHealthPointsCount(int totalHPCount)
+    {
+        totalEnemiesHealthPointsCount = totalHPCount;
+        totalEnemiesHPTextMeshPro.text = "TEHP: " + totalEnemiesHealthPointsCount.ToString();
+    }
+    public void LowerTotalEnemyHealthPointsCount(int damage)
+    {
+        totalEnemiesHealthPointsCount -= damage;
+        totalEnemiesHPTextMeshPro.text = "TEHP: " + totalEnemiesHealthPointsCount.ToString();
+    }
     #endregion
+
     #region Notes movement
     public void SetStartPositionForNote()
     {

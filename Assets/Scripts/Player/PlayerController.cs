@@ -10,9 +10,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject[] projectiles;
     #endregion
 
-    Vector3 currentTile;
+    private Vector3 currentPosition;
     public bool canMove;
     public bool canShot;
+    public GetGridTile getGridTile = new GetGridTile();
     private void Awake()
     {
         inputActions = new InputActions();
@@ -20,17 +21,17 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        GetPlayerTile();
+        //GetPlayerTile();
     }
     private void Move(int xAxisValue, int yAxisValue)
     {
         if (GameManager.Instance.isBeat && canMove)
         {
-            currentTile = transform.position;
-            Vector3 nextTile = new Vector3(currentTile.x + xAxisValue, currentTile.y + yAxisValue, currentTile.z);
-            transform.position = CheckNextTile(currentTile, nextTile);
+            currentPosition = transform.position;
+            Vector3 nextTile = new Vector3(currentPosition.x + xAxisValue, currentPosition.y + yAxisValue, currentPosition.z);
+            transform.position = CheckNextTile(currentPosition, nextTile);
             AudioManager.Instance.PlayKick();
-            GameManager.Instance.currentPlayerTile = GetPlayerTile();
+            GameManager.Instance.currentPlayerTile = getGridTile.GetTile(transform.position);
 
             canMove = false;
         }
@@ -38,20 +39,6 @@ public class PlayerController : MonoBehaviour
         {
             canMove = false;
         }
-    }
-    public GridTile GetPlayerTile()
-    {
-        GridTile currentTile = null;
-        var playerTileKey = new Vector2Int((int)transform.position.x, (int)transform.position.y);
-
-        foreach (Vector3Int tileInDictionary in GridManager.Instance.tilesLocationList)
-        {
-            if (GridManager.Instance.gridTilesMap.ContainsKey(playerTileKey))
-            {
-                currentTile = GridManager.Instance.gridTilesMap[playerTileKey];
-            }
-        }
-        return currentTile;
     }
     private Vector3 CheckNextTile(Vector3 currentTile, Vector3 nextTile)
     {

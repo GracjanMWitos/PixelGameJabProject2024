@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     public GridTile playerTile;
     [SerializeField] private GridTile currentEnemyTile;
     private HealthController playerHealthController;
+    public SpriteRenderer spriteRenderer;
     private float timeBetweenMoves;
 
     //Variables without assigning
@@ -21,37 +22,21 @@ public class EnemyController : MonoBehaviour
     private bool attackPerperation;
 
     [HideInInspector] public int numberOfMovesPerBeat = 1;
+
+    [HideInInspector] public bool isFightStarted;
+
+    private GetGridTile getGridTile = new GetGridTile();
     private void Start()
     {
         pathFinding = new PathFinding();
-        currentEnemyTile = GetEnemyTile(transform.position);
+        currentEnemyTile = getGridTile.GetTile(transform.position);
     }
 
-    private GridTile GetEnemyTile(Vector3 position)
-    {
-        GridTile startingTile = null;
-        var enemyTileKey = new Vector2Int((int)position.x, (int)position.y);
-
-        foreach (Vector3Int tileInDictionary in GridManager.Instance.tilesLocationList)
-        {
-            if (GridManager.Instance.gridTilesMap.ContainsKey(enemyTileKey))
-            {
-                startingTile = GridManager.Instance.gridTilesMap[enemyTileKey];
-            }
-        }
-        return startingTile;
-    }
-    private void SelectNewPath()
-    {
-            path.Clear();
-            playerTile = GameManager.Instance.currentPlayerTile;
-            path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles that creating path to player
-    }
     public void ExecuteEnemyAction()
     {
-        if (currentEnemyTile != null && playerTile != null)
+        if (currentEnemyTile != null && playerTile != null && isFightStarted)
         {
-            SelectNewPath();
+            RefreshPath();
             if (path[0] != playerTile && !attackPerperation)
             {
                 EnemyMove();
@@ -68,18 +53,14 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
-    private void DealDamageToPlayer()
+    private void RefreshPath()
     {
-        if (path[0] == playerTile)
-        {
-            if(playerHealthController == null)
-                playerHealthController = GameManager.Instance.player.GetComponent<HealthController>();
-
-            playerHealthController.TakeDamage(damage);
-        }
+        path.Clear();
+        playerTile = GameManager.Instance.currentPlayerTile;
+        path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles that creating path to player
     }
-
-        private void EnemyMove()
+    #region Movement
+    private void EnemyMove()
     {
         timeBetweenMoves = GameManager.Instance.timeBetweenHalfbeats;
         transform.position = Vector3.Lerp(transform.position, SelectNextMove(), timeBetweenMoves / Time.deltaTime);
@@ -94,5 +75,16 @@ public class EnemyController : MonoBehaviour
             attackPerperation = true;
         }
         return currentEnemyTile.transform.position;
+    }
+    #endregion
+    private void DealDamageToPlayer()
+    {
+        if (path[0] == playerTile)
+        {
+            if (playerHealthController == null)
+                playerHealthController = GameManager.Instance.player.GetComponent<HealthController>();
+
+            playerHealthController.TakeDamage(damage);
+        }
     }
 }
