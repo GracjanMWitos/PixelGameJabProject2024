@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 8e802bb7633125148823f2299f4c4a58
   - enabled: 1
-    path: Assets/Scenes/EnemiesTest.unity
-    guid: 0f81b6af6adb06f498afd0f1c9163135
+    path: Assets/Scenes/TomaszSiekra1.unity
+    guid: 6d98edb4e02184e45b17a38dc5aa6218
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 954e34e29368baf4fbfc37d446d79c86, type: 2}

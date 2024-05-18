@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Œe ci zdech³o, przykro mi");
+        GUIManager.Instance.DeathScreanActivation();
     }
 
     private IEnumerator DelayAudio()

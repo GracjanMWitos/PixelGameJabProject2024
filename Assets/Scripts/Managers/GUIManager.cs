@@ -12,6 +12,7 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private GameObject noteControllersParent;
     [SerializeField] private GameObject spacingIndicationParent;
     [SerializeField] private TextMeshProUGUI totalEnemiesHPTextMeshPro;
+    [SerializeField] private GameObject deathScrean;
 
     public int totalEnemiesHealthPointsCount;
     private UIHealhPointController[] healhPointControllers;
@@ -54,6 +55,11 @@ public class GUIManager : MonoBehaviour
 
         }
         return null;
+    }
+
+    public void DeathScreanActivation()
+    {
+        deathScrean.SetActive(true);
     }
 
     #region HP in GUI
