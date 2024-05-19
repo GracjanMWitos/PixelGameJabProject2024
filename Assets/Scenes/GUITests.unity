@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49879efb3ce75944b93d792d401096d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesArray: []
+  enemyControllers: []
   currentEnemiesGroupTransform: {fileID: 925898826}
 --- !u!4 &674859384
 Transform:
