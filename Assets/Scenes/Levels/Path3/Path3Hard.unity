@@ -60328,7 +60328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
       propertyPath: reactionCheckBalance
-      value: 0.75
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
       propertyPath: levelFinishingSequence
@@ -60358,6 +60358,10 @@ PrefabInstance:
     - target: {fileID: 1385492361003211259, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
       propertyPath: m_Name
       value: GUICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923220017765766525, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3074385806008283724, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
       propertyPath: m_Pivot.x
@@ -60579,14 +60583,14 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 3461683776277304314}
   - {fileID: 804846659}
+  - {fileID: 3461683776277304314}
   - {fileID: 8185728357637123349}
   - {fileID: 4853319986281958583}
   - {fileID: 2242119466032981846}
   - {fileID: 7923480060392337233}
+  - {fileID: 3443841650753306991}
   - {fileID: 7684858268823572355}
   - {fileID: 4684158347104447867}
   - {fileID: 3654068493632298948}
-  - {fileID: 3443841650753306991}
   - {fileID: 406473318}
