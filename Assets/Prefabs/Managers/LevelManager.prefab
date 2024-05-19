@@ -44,3 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a06e379bcbbccb4095e1e5c358dd02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelPaths:
+  - easyPath: 1
+    hardPath: 2
+  - easyPath: 3
+    hardPath: 4
+  - easyPath: 5
+    hardPath: 6
+  - easyPath: 7
+    hardPath: 8
+  - easyPath: 9
+    hardPath: 10

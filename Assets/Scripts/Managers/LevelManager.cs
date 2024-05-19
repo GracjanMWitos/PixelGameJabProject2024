@@ -22,6 +22,11 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+    public void SelectSceneByIndex(int index)
+    {
+
+        SceneManager.LoadScene(index);
+    }
 
    
     public void QuitGame()
