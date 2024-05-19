@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject moveIndicator;
     [SerializeField] private PlayerSpawner playerSpawner;
     [SerializeField] private CinemachineVirtualCamera cinemachine;
+    [SerializeField] private LevelFinishingSequence levelFinishingSequence;
 
     //Assigning via code
     [HideInInspector] public GameObject player;
@@ -108,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     public void FinishLevel()
     {
-
+        levelFinishingSequence.enabled = true;
     }
 
     public void GameOver()

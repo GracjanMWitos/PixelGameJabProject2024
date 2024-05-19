@@ -44,10 +44,17 @@ public class EnemiesManager : MonoBehaviour
     {
         enemyControllers.Clear();
         EnemyController[] tempEnemiesArray = currentEnemiesGroupTransform.GetComponentsInChildren<EnemyController>();
-        foreach (EnemyController enemyController in tempEnemiesArray)
+        if (tempEnemiesArray.Length > 0)
         {
-            enemyController.playerTile = GameManager.Instance.currentPlayerTile;
-            enemyControllers.Add(enemyController);
+            foreach (EnemyController enemyController in tempEnemiesArray)
+            {
+                enemyController.playerTile = GameManager.Instance.currentPlayerTile;
+                enemyControllers.Add(enemyController);
+            }
+        }
+        else
+        {
+            GameManager.Instance.FinishLevel();
         }
 
     }
