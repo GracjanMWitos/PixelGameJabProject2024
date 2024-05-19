@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d79b9da1bc285454b9d80e46d2d4b2c8
+guid: 4dd4533f6f1cd034bb8d24ba693bb250
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -106,11 +106,37 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ziemia_0
+      name: trawa_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 372100e57b2e47743932484f9e040161
-      internalID: -447237570
+      spriteID: d0e0f1a7451d5534c90c23431239e455
+      internalID: -1092823008
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ziemia_1
+      name: trawa_1
       rect:
         serializedVersion: 2
         x: 64
@@ -145,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4894e760ff17d944c83c1865fe87321f
-      internalID: 1537085832
+      spriteID: 387760ac2f8362e4089087f3fc284594
+      internalID: -1965155374
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ziemia_2
+      name: trawa_2
       rect:
         serializedVersion: 2
         x: 0
@@ -166,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 735b9323d7c4e9e4bbf5a5597656ed52
-      internalID: -197546842
+      spriteID: 3d98349e9e4578f438fe4f32a64b0bd8
+      internalID: -534871829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ziemia_3
+      name: trawa_3
       rect:
         serializedVersion: 2
         x: 64
@@ -187,8 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fc36958100a23a4a9e7c21fe4db2ef9
-      internalID: -1609498063
+      spriteID: d636fb72732712d4faed2b78993907fb
+      internalID: 1432058860
       vertices: []
       indices: 
       edges: []
@@ -204,10 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ziemia_0: -447237570
-      ziemia_1: 1537085832
-      ziemia_2: -197546842
-      ziemia_3: -1609498063
+      trawa_0: -1092823008
+      trawa_1: -1965155374
+      trawa_2: -534871829
+      trawa_3: 1432058860
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
