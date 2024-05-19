@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2455625631775776705}
   - component: {fileID: 7657068794473392979}
   m_Layer: 0
-  m_Name: Drzewo_
+  m_Name: Choinka
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
