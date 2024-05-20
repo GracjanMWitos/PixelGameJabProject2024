@@ -73,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.24533153, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: aaf52ef0a76502d4085cffd3f3567b23, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -197,6 +197,8 @@ MonoBehaviour:
   ProjectileSpwanPoint: {fileID: 9198453076666402630}
   projectiles:
   - {fileID: 4247198442638173686, guid: 0c566b76d97e5ff4db07afbcc0d17f78, type: 3}
+  canMove: 0
+  canShot: 0
 --- !u!114 &5086570242520952272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,4 +213,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 10
   hPHolder: 0
+  debugMode: 0
   debugDamage: 0
+  debugHeal: 0
