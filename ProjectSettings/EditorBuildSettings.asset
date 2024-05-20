@@ -4,55 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 8e802bb7633125148823f2299f4c4a58
-  - enabled: 1
-<<<<<<< Updated upstream
-    path: Assets/Scenes/Path1/Path2 Easy3.unity
-    guid: 2629eee9be2c7e74f94bc2e6824b7d55
-=======
-    path: Assets/Scenes/Levels/Path1/Path1Easy.unity
-    guid: 20ffd91bc377cef4e937934cfe3abae1
->>>>>>> Stashed changes
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path1/Path1Hard.unity
-    guid: 73171306826f737418a7eca67e620e70
-  - enabled: 1
-<<<<<<< Updated upstream
-    path: Assets/Scenes/Path2/Path2 Easy2.unity
-    guid: 48fdefc43ece8df4582848eb00b0b48c
-  - enabled: 1
-    path: Assets/Scenes/Path2/Path2 Hard.unity
-    guid: 3a201452f15aae042add8675ca482655
-  - enabled: 1
-    path: Assets/Scenes/Path3/Path3 Easy2.unity
-    guid: a3700e220eee17a458ffb69b28e30b20
-=======
-    path: Assets/Scenes/Levels/Path2/Path2Easy.unity
-    guid: d9ffa1cadad01b643aab82876e442310
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path2/Path2Hard.unity
-    guid: 119bd4752ead34b4d80566e58ebf20fa
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path3/Path3Easy.unity
-    guid: 2ef9ad9c63308e3459b0d4c8c7551bf1
->>>>>>> Stashed changes
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path3/Path3Hard.unity
-    guid: 6d98edb4e02184e45b17a38dc5aa6218
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path4/Path4Easy.unity
-    guid: 3cc3a84a952d8d24db79be330710566a
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path4/Path4Hard.unity
-    guid: 9b1009baee361434a8f48e45a533a6c7
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path5/Path5Easy.unity
-    guid: ad9d734e3860b4140bd8f5287f3efca6
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path5/Path5Hard.unity
-    guid: e35b473718f28f345a293ed2fcc91773
-  m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 954e34e29368baf4fbfc37d446d79c86, type: 2}
+  m_Scenes: []
+  m_configObjects: {}
