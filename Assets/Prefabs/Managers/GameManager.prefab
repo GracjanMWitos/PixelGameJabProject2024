@@ -49,22 +49,17 @@ MonoBehaviour:
   playerSpawner: {fileID: 0}
   cinemachine: {fileID: 0}
   levelFinishingSequence: {fileID: 0}
+  beatManager: {fileID: 0}
   player: {fileID: 0}
   currentPlayerTile: {fileID: 0}
+  noEnemies: 1
   isBeat: 0
   isHalfbeat: 0
-  beatPerMinute: 90
-  marginAsFractionOfTime: 2
-  reactionCheckBalance: 0.75
-  timeBetweenHalfbeats: 0
-  audioDelay: 0
-  millisecondsOfLoopActivationSpeedUp: 112
-  audioTime: 0
-  audioDuration: 0
+  audioDelay: 4
   invokeCountToHalfbeat: 0
   invokeCountToBeat: 0
   invokeCountToEnemyTurn: 0
   firstCountDown: 1
   secondCountDown: 1
   enemyTurnCooldown: 0
-  delayPoints: 5
+  delayPoints: 0

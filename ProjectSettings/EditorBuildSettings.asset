@@ -9,12 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 8e802bb7633125148823f2299f4c4a58
   - enabled: 1
+<<<<<<< Updated upstream
     path: Assets/Scenes/Path1/Path2 Easy3.unity
     guid: 2629eee9be2c7e74f94bc2e6824b7d55
+=======
+    path: Assets/Scenes/Levels/Path1/Path1Easy.unity
+    guid: 20ffd91bc377cef4e937934cfe3abae1
+>>>>>>> Stashed changes
   - enabled: 1
     path: Assets/Scenes/Levels/Path1/Path1Hard.unity
     guid: 73171306826f737418a7eca67e620e70
   - enabled: 1
+<<<<<<< Updated upstream
     path: Assets/Scenes/Path2/Path2 Easy2.unity
     guid: 48fdefc43ece8df4582848eb00b0b48c
   - enabled: 1
@@ -23,6 +29,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Path3/Path3 Easy2.unity
     guid: a3700e220eee17a458ffb69b28e30b20
+=======
+    path: Assets/Scenes/Levels/Path2/Path2Easy.unity
+    guid: d9ffa1cadad01b643aab82876e442310
+  - enabled: 1
+    path: Assets/Scenes/Levels/Path2/Path2Hard.unity
+    guid: 119bd4752ead34b4d80566e58ebf20fa
+  - enabled: 1
+    path: Assets/Scenes/Levels/Path3/Path3Easy.unity
+    guid: 2ef9ad9c63308e3459b0d4c8c7551bf1
+>>>>>>> Stashed changes
   - enabled: 1
     path: Assets/Scenes/Levels/Path3/Path3Hard.unity
     guid: 6d98edb4e02184e45b17a38dc5aa6218
