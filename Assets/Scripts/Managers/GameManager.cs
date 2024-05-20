@@ -44,6 +44,13 @@ public class GameManager : MonoBehaviour
     public float millisecondsOfLoopActivationSpeedUp;
     private float loopLenght = 9.6f;
     private Stopwatch timer = new Stopwatch();
+    public float audioTime;
+    public float audioDuration;
+
+    [SerializeField] private int invokeCountToHalfbeat;
+    [SerializeField] private int invokeCountToBeat;
+    private bool firstCountDown;
+    private bool secondCountDown;
 
     private void Update()
     {
@@ -93,12 +100,9 @@ public class GameManager : MonoBehaviour
         timeOfMarginAfterNote = marginTime * (1 - reactionCheckBalance);
 
 
-        Debug.Log("Margin time " + marginTime);
-        Debug.Log("Margin time before  " + timeOfMarginBeforeNote);
-        Debug.Log("Margin time after " + timeOfMarginAfterNote);
         #endregion
 
-        StartCoroutine(Loop());
+        //StartCoroutine(Loop());
 
     }
     private GameObject AttachMoveIndicatorToPlayer()
@@ -508,7 +512,6 @@ public class GameManager : MonoBehaviour
     {
         isBeat = false;
         playerController.canMove = true;
-        playerController.canShot = true;
         moveIndicator.SetActive(false);
     }
     private void HalfbeatReactionTimeStart()
@@ -523,23 +526,79 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Regular events
-    private void OnBeat()
+    public void OnBeat()
     {
         
-        GUIManager.Instance.MoveNotesToNextTarget();
+        
     }
-    private void OnHalfbeat()
+    public void OnHalfbeat()
     {
         GUIManager.Instance.MoveNotesToNextTarget();
 
     }
-    private void EnemyTurn()
+    public void EnemyTurn()
     {
         if (EnemiesManager.Instance.enemyControllers.Count > 0)
         {
             EnemiesManager.Instance.ExecuteEnemiesActions();
 
         }
+    }
+    public void InvokeHalfbeatCheckAfterCountDown()
+    {
+        invokeCountToHalfbeat++;
+
+        if (invokeCountToHalfbeat == 4 && isHalfbeat && !firstCountDown)
+        {
+            invokeCountToHalfbeat = 0;
+            isHalfbeat = false;
+            playerController.canShot = true;
+        }
+        else if (invokeCountToHalfbeat == 4 && !isHalfbeat && !firstCountDown)
+        {
+            invokeCountToHalfbeat = 0;
+            isHalfbeat = true;
+        }
+        #region First counting
+        else if (invokeCountToHalfbeat == 6 && !isHalfbeat && firstCountDown)
+        {
+            firstCountDown = false;
+            invokeCountToHalfbeat = 0;
+            isHalfbeat = true;
+        }
+        #endregion
+    }
+
+    public void InvokeBeatCheckAfterCountDown()
+    {
+        invokeCountToBeat++;
+
+        if (invokeCountToBeat == 4 && isBeat && !secondCountDown)
+        {
+            invokeCountToBeat = 0;
+            isBeat = false;
+            playerController.canMove = true;
+            moveIndicator.SetActive(false);
+        }
+        else if (invokeCountToBeat == 12 && !isBeat && !secondCountDown)
+        {
+            invokeCountToBeat = 0;
+            isBeat = true;
+            moveIndicator.SetActive(true);
+        }
+        #region First counting
+        else if (invokeCountToBeat == 14 && !isBeat && secondCountDown)
+        {
+            secondCountDown = false;
+            invokeCountToBeat = 0;
+            moveIndicator.SetActive(true);
+            isBeat = true;
+        }
+        #endregion
+    }
+    public void DebugLog()
+    {
+        Debug.Log("Beat");
     }
     #endregion
 
