@@ -49,8 +49,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int invokeCountToHalfbeat;
     [SerializeField] private int invokeCountToBeat;
+    [SerializeField] private int invokeCountToEnemyTurn;
     private bool firstCountDown;
     private bool secondCountDown;
+    private bool enemyTurnCooldown;
+
+    [SerializeField] private int delayPoints;
 
     private void Update()
     {
@@ -560,7 +564,7 @@ public class GameManager : MonoBehaviour
             isHalfbeat = true;
         }
         #region First counting
-        else if (invokeCountToHalfbeat == 6 && !isHalfbeat && firstCountDown)
+        else if (invokeCountToHalfbeat == 6 + delayPoints && !isHalfbeat && firstCountDown)
         {
             firstCountDown = false;
             invokeCountToHalfbeat = 0;
@@ -573,21 +577,21 @@ public class GameManager : MonoBehaviour
     {
         invokeCountToBeat++;
 
-        if (invokeCountToBeat == 4 && isBeat && !secondCountDown)
+        if (invokeCountToBeat == 6 && isBeat && !secondCountDown)
         {
             invokeCountToBeat = 0;
             isBeat = false;
             playerController.canMove = true;
             moveIndicator.SetActive(false);
         }
-        else if (invokeCountToBeat == 12 && !isBeat && !secondCountDown)
+        else if (invokeCountToBeat == 10 && !isBeat && !secondCountDown)
         {
             invokeCountToBeat = 0;
             isBeat = true;
             moveIndicator.SetActive(true);
         }
         #region First counting
-        else if (invokeCountToBeat == 14 && !isBeat && secondCountDown)
+        else if (invokeCountToBeat == 13 + delayPoints && !isBeat && secondCountDown)
         {
             secondCountDown = false;
             invokeCountToBeat = 0;
@@ -596,9 +600,22 @@ public class GameManager : MonoBehaviour
         }
         #endregion
     }
-    public void DebugLog()
+    public void InvokeEnemyTurnAfterCountDown()
     {
-        Debug.Log("Beat");
+        invokeCountToEnemyTurn++;
+
+        if (invokeCountToEnemyTurn == 4 && enemyTurnCooldown)
+        {
+            invokeCountToEnemyTurn = 0;
+            enemyTurnCooldown = false;
+            EnemyTurn();
+        }
+        else if (invokeCountToEnemyTurn == 12 + delayPoints && !enemyTurnCooldown)
+        {
+            invokeCountToEnemyTurn = 0;
+            enemyTurnCooldown = true;
+            EnemyTurn();
+        }
     }
     #endregion
 

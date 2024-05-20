@@ -48,15 +48,20 @@ MonoBehaviour:
   moveIndicator: {fileID: 5738066883984523805, guid: 2f82b48a63b855c428068ef30b5c0731, type: 3}
   playerSpawner: {fileID: 0}
   cinemachine: {fileID: 0}
+  levelFinishingSequence: {fileID: 0}
   player: {fileID: 0}
   currentPlayerTile: {fileID: 0}
-  start: 1
   isBeat: 0
   isHalfbeat: 0
-  beatPerMinute: 100
+  beatPerMinute: 90
   marginAsFractionOfTime: 1.5
-  reactionCheckBalance: 0.875
-  loopingDelay: 0
-  audioDelay: 0
+  reactionCheckBalance: 0.75
   timeBetweenHalfbeats: 0
-  millisecondsOfDelay: 112
+  audioDelay: 0
+  millisecondsOfLoopActivationSpeedUp: 112
+  audioTime: 0
+  audioDuration: 0
+  invokeCountToHalfbeat: 0
+  invokeCountToBeat: 0
+  invokeCountToEnemyTurn: 0
+  delayPoints: 14
