@@ -5,24 +5,34 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public Transform target;
+    private Transform target;
+    [SerializeField] private Transform eventsActivator;
     [SerializeField] private int projectileDamage = 1;
     private Rigidbody2D projectileRB;
     private float gameSpeed; // beats per minute
     [SerializeField] private float projectileSpeed;
-    [SerializeField] private float destoyDistanceBeforeTarget = 0.25f;
+    [SerializeField] private float destoyDistanceBeforeTarget = 0.35f;
     private void Awake()
     {
         projectileRB = GetComponent<Rigidbody2D>();
+        eventsActivator = GameObject.FindGameObjectWithTag("EventsActivator").transform;
         SelectTarget();
 
     }
     private void Start()
     {
-        gameSpeed = GameManager.Instance.beatPerMinute;
+        gameSpeed = GameManager.Instance.GetTimeBetweenHeafbeats();
     }
     void Update()
     {
+        if (GameManager.Instance.noEnemies)
+        {
+            target = eventsActivator;
+        }
+        if (target == null)
+        {
+            target = ClosestTarget();
+        }
         Move();
         if (Vector2.Distance(transform.position, target.position) < destoyDistanceBeforeTarget)
         {
@@ -33,11 +43,14 @@ public class ProjectileController : MonoBehaviour
     {
         Vector2 direction = target.position - transform.position;
         projectileRB.AddForce(direction * projectileSpeed/4);
-        projectileRB.velocity = new Vector2(direction.x, direction.y).normalized * projectileSpeed * gameSpeed * Time.deltaTime;
+        projectileRB.velocity = new Vector2(direction.x, direction.y).normalized * projectileSpeed * Time.deltaTime;
     }
     private void DestroyProjectile()
     {
-        target.GetComponent<HealthController>().TakeDamage(projectileDamage);
+        if (!GameManager.Instance.noEnemies)
+        {
+            target.GetComponent<HealthController>().TakeDamage(projectileDamage);
+        }
         Destroy(gameObject);
     }
     private Transform ClosestTarget()

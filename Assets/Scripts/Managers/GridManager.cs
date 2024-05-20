@@ -11,10 +11,9 @@ public class GridManager : MonoBehaviour
     public static GridManager Instance { get { return _instance; } }
 
     //Assigning via inspector
-    [SerializeField] private GridTile gridTilePrefab = null;
-    [SerializeField] private Transform gridContainer = null;
-    [SerializeField] private Tilemap groundTilemap = null;
-    [SerializeField] private Tilemap wallsTilemap = null;
+    [SerializeField] private GridTile gridTilePrefab;
+    [SerializeField] private Transform gridContainer;
+    [SerializeField] private Tilemap groundTilemap;
 
     //Other
     [HideInInspector] public List<Vector3Int> tilesLocationList = new List<Vector3Int>();
@@ -35,7 +34,6 @@ public class GridManager : MonoBehaviour
 
     public void GenerateGrid()
     {
-        groundTilemap = gameObject.GetComponentInChildren<Tilemap>();
         BoundsInt bounds = groundTilemap.cellBounds;
         for (int x = bounds.min.x; x < bounds.max.x; x++)
         {

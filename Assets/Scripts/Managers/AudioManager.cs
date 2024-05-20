@@ -21,7 +21,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get { return _instance; } }
 
     public List<SoundsGroup> soundsGroup = new List<SoundsGroup>();
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     public AudioInBioms audioInCurrentBiom;
     [SerializeField] private AudioClip beatSound;
     public SoundsGroup currentSoundGroup;

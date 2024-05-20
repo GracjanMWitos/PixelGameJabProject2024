@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class BeatManager : MonoBehaviour
 {
-    [SerializeField] private float bpm;
+    public float bpm;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private Intervals[] intervals;
 

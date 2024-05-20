@@ -100,9 +100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  eventsActivator: {fileID: 0}
   projectileDamage: 1
-  projectileSpeed: 40
-  destoyDistanceBeforeTarget: 0.4
+  projectileSpeed: 60
+  destoyDistanceBeforeTarget: 0.25
 --- !u!50 &2668328145911235329
 Rigidbody2D:
   serializedVersion: 4

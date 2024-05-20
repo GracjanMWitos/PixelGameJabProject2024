@@ -10,6 +10,7 @@ public class EnemyActivator : MonoBehaviour
         if (getGridTile.GetTile(transform.position) == GameManager.Instance.currentPlayerTile)
         {
             EnemiesManager.Instance.ActivateEnemies();
+            GameManager.Instance.noEnemies = false;
         }
     }
 }

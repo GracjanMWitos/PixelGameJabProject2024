@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
             currentPosition = transform.position;
             Vector3 nextTile = new Vector3(currentPosition.x + xAxisValue, currentPosition.y + yAxisValue, currentPosition.z);
             transform.position = CheckNextTile(currentPosition, nextTile);
-            AudioManager.Instance.PlayKick();
             GameManager.Instance.currentPlayerTile = getGridTile.GetTile(transform.position);
 
             canMove = false;
@@ -57,7 +56,6 @@ public class PlayerController : MonoBehaviour
         if ((GameManager.Instance.isHalfbeat || GameManager.Instance.isBeat) && canShot)
         {
             Instantiate(projectiles[projectileIndex], ProjectileSpwanPoint.position, Quaternion.identity);
-            AudioManager.Instance.PlayHiHat();
 
             canShot = false;
         }

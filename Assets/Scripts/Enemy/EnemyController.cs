@@ -62,7 +62,7 @@ public class EnemyController : MonoBehaviour
     #region Movement
     private void EnemyMove()
     {
-        timeBetweenMoves = GameManager.Instance.timeBetweenHalfbeats;
+        timeBetweenMoves = GameManager.Instance.GetTimeBetweenHeafbeats();
         transform.position = Vector3.Lerp(transform.position, SelectNextMove(), timeBetweenMoves / Time.deltaTime);
 
     }

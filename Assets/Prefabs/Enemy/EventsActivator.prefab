@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6477164942861247128}
   - component: {fileID: 1049433259559399072}
-  - component: {fileID: 7884724393873852037}
+  - component: {fileID: 7749519631301947935}
   m_Layer: 0
   m_Name: EventsActivator
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 295cd4b5e0158f44eb453ba27358390d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7884724393873852037
+--- !u!114 &7749519631301947935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,8 +151,8 @@ Transform:
   m_GameObject: {fileID: 6318467081161187822}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.049, y: 0.062, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.03, z: 1.03}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7901685113870040580}
@@ -236,7 +236,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7901685113870040580}

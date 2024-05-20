@@ -67,6 +67,7 @@ public class HealthController : MonoBehaviour
             if (hPHolder == HealthPointHolder.Enemy)
             {
                 EnemiesManager.Instance.enemyControllers.Remove(GetComponent<EnemyController>());
+                EnemiesManager.Instance.RefreshEnemiesList();
                 Destroy(gameObject);
             }
         }

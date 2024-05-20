@@ -54,7 +54,7 @@ MonoBehaviour:
   isBeat: 0
   isHalfbeat: 0
   beatPerMinute: 90
-  marginAsFractionOfTime: 1.5
+  marginAsFractionOfTime: 2
   reactionCheckBalance: 0.75
   timeBetweenHalfbeats: 0
   audioDelay: 0
@@ -64,4 +64,7 @@ MonoBehaviour:
   invokeCountToHalfbeat: 0
   invokeCountToBeat: 0
   invokeCountToEnemyTurn: 0
-  delayPoints: 14
+  firstCountDown: 1
+  secondCountDown: 1
+  enemyTurnCooldown: 0
+  delayPoints: 5

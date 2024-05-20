@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
 using Cinemachine;
-using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,53 +16,30 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerSpawner playerSpawner;
     [SerializeField] private CinemachineVirtualCamera cinemachine;
     [SerializeField] private LevelFinishingSequence levelFinishingSequence;
+    [SerializeField] private BeatManager beatManager;
 
     //Assigning via code
     [HideInInspector] public GameObject player;
     [HideInInspector] public GridTile currentPlayerTile;
     private PlayerController playerController;
     [Space]
-
+    public bool noEnemies = true;
     #endregion
 
     [HideInInspector] public bool isBeat;
     [HideInInspector] public bool isHalfbeat;
 
-    [Header("Beats Settings")]
-    public float beatPerMinute = 70;
-    [Range(1f,3f)][SerializeField] private float marginAsFractionOfTime = 2f; // fraction of time between beat and halfbeat to give mistake margin before and after note
-    [Range(0.125f, 0.875f)] [SerializeField] private float reactionCheckBalance = 0.75f;
-
-    [HideInInspector] public float timeBetweenHalfbeats;
-    private float marginTime;
-    private float timeOfMarginBeforeNote;
-    private float timeOfMarginAfterNote;
-    [Space]
     public float audioDelay;
-    public float millisecondsOfLoopActivationSpeedUp;
-    private float loopLenght = 9.6f;
-    private Stopwatch timer = new Stopwatch();
-    public float audioTime;
-    public float audioDuration;
 
     [SerializeField] private int invokeCountToHalfbeat;
     [SerializeField] private int invokeCountToBeat;
     [SerializeField] private int invokeCountToEnemyTurn;
-    private bool firstCountDown;
-    private bool secondCountDown;
-    private bool enemyTurnCooldown;
+    public bool firstCountDown;
+    public bool secondCountDown;
+    public bool enemyTurnCooldown;
 
     [SerializeField] private int delayPoints;
 
-    private void Update()
-    {
-        if (timer.Elapsed.TotalMilliseconds >= (loopLenght * 1000) - millisecondsOfLoopActivationSpeedUp)
-        {
-            Debug.Log(timer.Elapsed.TotalMilliseconds);
-            StartCoroutine(Loop());
-            timer.Reset();
-        }
-    }
     void Awake()
     {
         #region Instance check
@@ -95,19 +70,14 @@ public class GameManager : MonoBehaviour
         EnemiesManager.Instance.RefreshEnemiesList();
         #endregion
 
-        #region Calculation for loops
-
-        timeBetweenHalfbeats = (60/ beatPerMinute)/2 ;
-        //margins
-        marginTime = timeBetweenHalfbeats / marginAsFractionOfTime;
-        timeOfMarginBeforeNote = marginTime * reactionCheckBalance;
-        timeOfMarginAfterNote = marginTime * (1 - reactionCheckBalance);
 
 
-        #endregion
+        StartCoroutine(DelayAudio());
 
-        //StartCoroutine(Loop());
-
+    }
+    public float GetTimeBetweenHeafbeats()
+    {
+        return 60f / beatManager.bpm / 2;  
     }
     private GameObject AttachMoveIndicatorToPlayer()
     {
@@ -118,6 +88,7 @@ public class GameManager : MonoBehaviour
     public void FinishLevel()
     {
         levelFinishingSequence.enabled = true;
+        noEnemies = true;
     }
 
     public void GameOver()
@@ -128,408 +99,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator DelayAudio()
     {
         yield return new WaitForSecondsRealtime(audioDelay);
-        audioManager.PlayMetronomBeat();
-        timer.Start();
+        audioManager.audioSource.Play();
     }
     
-    private IEnumerator Loop()
-    {
 
-        #region 1 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        StartCoroutine(DelayAudio());
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();                          
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 2 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 3 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 4 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 5 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 6 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 7 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 8 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 9 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 10 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 11 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 12 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 13 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 14 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 15 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-
-        #region 16 beat and halfbeat
-        BeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        EnemyTurn();
-        OnBeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        BeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-
-        HalfbeatReactionTimeStart();
-        yield return new WaitForSecondsRealtime(timeOfMarginBeforeNote);
-
-        OnHalfbeat();
-
-        yield return new WaitForSecondsRealtime(timeOfMarginAfterNote);
-        HalfbeatReactionTimeEnd();
-
-        yield return new WaitForSecondsRealtime(timeBetweenHalfbeats - marginTime);
-        #endregion
-    }
-
-    #region Reaction Times Methods
-    private void BeatReactionTimeStart()
-    {
-        isBeat = true;
-        moveIndicator.SetActive(true);
-    }
-    private void BeatReactionTimeEnd()
-    {
-        isBeat = false;
-        playerController.canMove = true;
-        moveIndicator.SetActive(false);
-    }
-    private void HalfbeatReactionTimeStart()
-    {
-        isHalfbeat = true;
-    }
-    private void HalfbeatReactionTimeEnd()
-    {
-        isHalfbeat = false;
-        playerController.canShot = true;
-    }
-    #endregion
-
-    #region Regular events
     public void OnBeat()
     {
         
@@ -548,23 +121,24 @@ public class GameManager : MonoBehaviour
 
         }
     }
+    #region Invoking events after increasing index
     public void InvokeHalfbeatCheckAfterCountDown()
     {
         invokeCountToHalfbeat++;
 
-        if (invokeCountToHalfbeat == 4 && isHalfbeat && !firstCountDown)
+        if (invokeCountToHalfbeat == 6 && isHalfbeat && !firstCountDown)
         {
             invokeCountToHalfbeat = 0;
             isHalfbeat = false;
             playerController.canShot = true;
         }
-        else if (invokeCountToHalfbeat == 4 && !isHalfbeat && !firstCountDown)
+        else if (invokeCountToHalfbeat == 2 && !isHalfbeat && !firstCountDown)
         {
             invokeCountToHalfbeat = 0;
             isHalfbeat = true;
         }
         #region First counting
-        else if (invokeCountToHalfbeat == 6 + delayPoints && !isHalfbeat && firstCountDown)
+        else if (invokeCountToHalfbeat == 5 + delayPoints && !isHalfbeat && firstCountDown)
         {
             firstCountDown = false;
             invokeCountToHalfbeat = 0;
@@ -608,7 +182,6 @@ public class GameManager : MonoBehaviour
         {
             invokeCountToEnemyTurn = 0;
             enemyTurnCooldown = false;
-            EnemyTurn();
         }
         else if (invokeCountToEnemyTurn == 12 + delayPoints && !enemyTurnCooldown)
         {
@@ -618,5 +191,4 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-
 }

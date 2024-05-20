@@ -27,8 +27,11 @@ public class LevelManager : MonoBehaviour
 
         SceneManager.LoadScene(index);
     }
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
-   
     public void QuitGame()
     {
         Application.Quit();
