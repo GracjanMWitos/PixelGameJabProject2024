@@ -4,35 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-<<<<<<< Updated upstream
   m_Scenes: []
   m_configObjects: {}
-=======
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 8e802bb7633125148823f2299f4c4a58
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path1/Path1Easy.unity
-    guid: 20ffd91bc377cef4e937934cfe3abae1
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path1/Path1Hard.unity
-    guid: 73171306826f737418a7eca67e620e70
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path2/Path2Easy.unity
-    guid: d9ffa1cadad01b643aab82876e442310
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path2/Path2Hard.unity
-    guid: 119bd4752ead34b4d80566e58ebf20fa
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path3/Path3Easy.unity
-    guid: 2ef9ad9c63308e3459b0d4c8c7551bf1
-  - enabled: 1
-    path: Assets/Scenes/Levels/Path3/Path3Hard.unity
-    guid: 6d98edb4e02184e45b17a38dc5aa6218
-  - enabled: 1
-    path: Assets/Scenes/Levels/PathBoss.unity
-    guid: a3c26422b9edf9b4aa7b8c4b3aa518aa
-  m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 954e34e29368baf4fbfc37d446d79c86, type: 2}
->>>>>>> Stashed changes

@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,33 +6,34 @@ public class ProjectileController : MonoBehaviour
 {
     private Transform target;
     [SerializeField] private Transform eventsActivator;
-    [SerializeField] private int projectileDamage = 1;
     private Rigidbody2D projectileRB;
-    private float gameSpeed; // beats per minute
+
+    [SerializeField] private int projectileDamage = 1;
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float destoyDistanceBeforeTarget = 0.35f;
     private void Awake()
     {
         projectileRB = GetComponent<Rigidbody2D>();
         eventsActivator = GameObject.FindGameObjectWithTag("EventsActivator").transform;
+
         SelectTarget();
 
     }
-    private void Start()
-    {
-        gameSpeed = GameManager.Instance.GetTimeBetweenHeafbeats();
-    }
     void Update()
     {
+        //At the level end change target on eventActivator
         if (GameManager.Instance.noEnemies)
         {
             target = eventsActivator;
         }
+        // if there is no target search for one
         if (target == null)
         {
             target = ClosestTarget();
         }
+
         Move();
+        // destroy projectile when it will get close enought to target
         if (Vector2.Distance(transform.position, target.position) < destoyDistanceBeforeTarget)
         {
             DestroyProjectile();
@@ -44,14 +44,6 @@ public class ProjectileController : MonoBehaviour
         Vector2 direction = target.position - transform.position;
         projectileRB.AddForce(direction * projectileSpeed/4);
         projectileRB.velocity = new Vector2(direction.x, direction.y).normalized * projectileSpeed * Time.deltaTime;
-    }
-    private void DestroyProjectile()
-    {
-        if (!GameManager.Instance.noEnemies)
-        {
-            target.GetComponent<HealthController>().TakeDamage(projectileDamage);
-        }
-        Destroy(gameObject);
     }
     private Transform ClosestTarget()
     {
@@ -75,6 +67,15 @@ public class ProjectileController : MonoBehaviour
     public void SelectTarget()
     {
         target = ClosestTarget();
+    }
+
+    private void DestroyProjectile()
+    {
+        if (!GameManager.Instance.noEnemies)
+        {
+            target.GetComponent<HealthController>().TakeDamage(projectileDamage);
+        }
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

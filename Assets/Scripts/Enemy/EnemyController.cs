@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    //Assigning via inspector
-
     //Assigning via code
     public GridTile playerTile;
     [SerializeField] private GridTile currentEnemyTile;
@@ -13,19 +11,17 @@ public class EnemyController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     private float timeBetweenMoves;
 
-    //Variables without assigning
-    [SerializeField] private int damage;
 
-    private PathFinding pathFinding;
-    private GridTile attackTargetGridTile;
-    private List<GridTile> path = new List<GridTile>();
+    [SerializeField] private int damage;
     private bool attackPerperation;
 
     [HideInInspector] public int numberOfMovesPerBeat = 1;
-
     [HideInInspector] public bool isFightStarted;
 
+    private PathFinding pathFinding;
+    private List<GridTile> path = new List<GridTile>();
     private GetGridTile getGridTile = new GetGridTile();
+
     private void Start()
     {
         pathFinding = new PathFinding();

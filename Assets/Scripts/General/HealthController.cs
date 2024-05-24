@@ -13,7 +13,7 @@ public class HealthController : MonoBehaviour
     [SerializeField] private bool debugMode = false;
     [SerializeField] private int debugDamage = 0;
     [SerializeField] private int debugHeal = 0;
-    private void Awake()
+    private void Start()
     {
         currentHealthPoints = maxHealthPoints;
     }
@@ -21,9 +21,10 @@ public class HealthController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealthPoints -= damage;
-
+        // if it's player health, lower health bar in UI by damage
         if (hPHolder == HealthPointHolder.Player)
         {
+            //if heath is below zero damage damage and health will have value that gives zero
             if (currentHealthPoints < 0)
             {
                 damage += currentHealthPoints;
@@ -31,14 +32,17 @@ public class HealthController : MonoBehaviour
             }
             GUIManager.Instance.LowerNumberOfHealthPointsInUI(currentHealthPoints, damage);
         }
+        // if it's enemy health, lower total enemies health points count in UI by damage
         else if (hPHolder == HealthPointHolder.Enemy)
         {
+            //if heath is below zero damage equels damage - points below zero 
             if (currentHealthPoints < 0)
             {
-                damage = damage + currentHealthPoints;
+                damage += currentHealthPoints;
             }
             GUIManager.Instance.LowerTotalEnemyHealthPointsCount(damage);
         }
+
         DeathCheck();
     }
     public void HealDamage(int heal)
@@ -72,6 +76,7 @@ public class HealthController : MonoBehaviour
             }
         }
     }
+    #region for debuging
     private void Update()
     {
         if (debugMode)
@@ -88,4 +93,5 @@ public class HealthController : MonoBehaviour
             }
         }
     }
+    #endregion
 }

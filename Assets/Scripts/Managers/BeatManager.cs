@@ -6,9 +6,14 @@ using UnityEngine.Events;
 public class BeatManager : MonoBehaviour
 {
     public float bpm;
-    [SerializeField] private AudioSource audioSource;
+    [HideInInspector] public AudioSource audioSource;
+
     [SerializeField] private Intervals[] intervals;
 
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     private void Update()
     {
         foreach (Intervals interval in intervals)

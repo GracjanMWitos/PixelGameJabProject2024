@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     #region Assignments
     [Header("Assignments")]
     //Assigning via inspector
-    [SerializeField] private AudioManager audioManager;
     [SerializeField] private GameObject moveIndicator;
     [SerializeField] private PlayerSpawner playerSpawner;
     [SerializeField] private CinemachineVirtualCamera cinemachine;
@@ -28,17 +27,21 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public bool isBeat;
     [HideInInspector] public bool isHalfbeat;
+    private bool canInvokeHalfbeatAction = true;
 
     public float audioDelay;
 
-    [SerializeField] private int invokeCountToHalfbeat;
-    [SerializeField] private int invokeCountToBeat;
-    [SerializeField] private int invokeCountToEnemyTurn;
-    public bool firstCountDown;
-    public bool secondCountDown;
-    public bool enemyTurnCooldown;
+    private int invokeCountToHalfbeat;
+    private int invokeCountToHalfbeatAction;
+    private int invokeCountToBeat;
+    private int invokeCountToEnemyTurn;
 
-    [SerializeField] private int delayPoints;
+    private bool firstCountDown = true;
+    private bool secondCountDown = true;
+    private bool enemyTurnCooldown = true;
+
+    [SerializeField] private int delayIndincator;
+    [SerializeField] private int delayNotes;
 
     void Awake()
     {
@@ -53,6 +56,7 @@ public class GameManager : MonoBehaviour
         }
         #endregion
     }
+
     private void Start()
     {
         StartLevel();
@@ -70,14 +74,7 @@ public class GameManager : MonoBehaviour
         EnemiesManager.Instance.RefreshEnemiesList();
         #endregion
 
-
-
         StartCoroutine(DelayAudio());
-
-    }
-    public float GetTimeBetweenHeafbeats()
-    {
-        return 60f / beatManager.bpm / 2;  
     }
     private GameObject AttachMoveIndicatorToPlayer()
     {
@@ -90,38 +87,43 @@ public class GameManager : MonoBehaviour
         levelFinishingSequence.enabled = true;
         noEnemies = true;
     }
-
     public void GameOver()
     {
         GUIManager.Instance.DeathScreanActivation();
+    }
+    public float GetTimeBetweenHeafbeats()
+    {
+        return 60f / beatManager.bpm / 2;
     }
 
     private IEnumerator DelayAudio()
     {
         yield return new WaitForSecondsRealtime(audioDelay);
-        audioManager.audioSource.Play();
+        beatManager.audioSource.Play();
     }
-    
-
-    public void OnBeat()
-    {
-        
-        
-    }
-    public void OnHalfbeat()
-    {
-        GUIManager.Instance.MoveNotesToNextTarget();
-
-    }
+    #region Invoking events after increasing index
     public void EnemyTurn()
     {
         if (EnemiesManager.Instance.enemyControllers.Count > 0)
         {
             EnemiesManager.Instance.ExecuteEnemiesActions();
-
         }
     }
-    #region Invoking events after increasing index
+    public void InvokeHalfbeatActionCountDown()
+    {
+        invokeCountToHalfbeatAction++;
+
+        if (invokeCountToHalfbeatAction == 4 + delayNotes && canInvokeHalfbeatAction)
+        {
+            GUIManager.Instance.MoveNotesToNextTarget();
+            canInvokeHalfbeatAction = false;
+        }
+        else if (invokeCountToHalfbeatAction == 8 + delayNotes && !canInvokeHalfbeatAction)
+        {
+            invokeCountToHalfbeatAction = delayNotes;
+            canInvokeHalfbeatAction = true;
+        }
+    }
     public void InvokeHalfbeatCheckAfterCountDown()
     {
         invokeCountToHalfbeat++;
@@ -137,14 +139,13 @@ public class GameManager : MonoBehaviour
             invokeCountToHalfbeat = 0;
             isHalfbeat = true;
         }
-        #region First counting
-        else if (invokeCountToHalfbeat == 5 + delayPoints && !isHalfbeat && firstCountDown)
+        //First counting
+        else if (invokeCountToHalfbeat == 5 + delayIndincator && !isHalfbeat && firstCountDown)
         {
             firstCountDown = false;
             invokeCountToHalfbeat = 0;
             isHalfbeat = true;
         }
-        #endregion
     }
 
     public void InvokeBeatCheckAfterCountDown()
@@ -164,15 +165,14 @@ public class GameManager : MonoBehaviour
             isBeat = true;
             moveIndicator.SetActive(true);
         }
-        #region First counting
-        else if (invokeCountToBeat == 13 + delayPoints && !isBeat && secondCountDown)
+        //First counting
+        else if (invokeCountToBeat == 13 + delayIndincator && !isBeat && secondCountDown)
         {
             secondCountDown = false;
             invokeCountToBeat = 0;
             moveIndicator.SetActive(true);
             isBeat = true;
         }
-        #endregion
     }
     public void InvokeEnemyTurnAfterCountDown()
     {
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
             invokeCountToEnemyTurn = 0;
             enemyTurnCooldown = false;
         }
-        else if (invokeCountToEnemyTurn == 12 + delayPoints && !enemyTurnCooldown)
+        else if (invokeCountToEnemyTurn == 12 + delayIndincator && !enemyTurnCooldown)
         {
             invokeCountToEnemyTurn = 0;
             enemyTurnCooldown = true;

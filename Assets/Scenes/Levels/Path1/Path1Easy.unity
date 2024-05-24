@@ -58542,17 +58542,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 986921317582998275, guid: 17c4568d4ea6ccf42ba10d6e7c59c323, type: 3}
   m_PrefabInstance: {fileID: 404625100}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &553685042 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7583315659162458998, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-  m_PrefabInstance: {fileID: 2242119466032981846}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6476e94d0e3dc4645a03767bbe6750b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &804846656
 GameObject:
   m_ObjectHideFlags: 0
@@ -59068,11 +59057,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 986921317582998275, guid: 17c4568d4ea6ccf42ba10d6e7c59c323, type: 3}
   m_PrefabInstance: {fileID: 1549957177}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1576262428 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1872208824658809381, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-  m_PrefabInstance: {fileID: 2242119466032981846}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1612424298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59433,41 +59417,21 @@ PrefabInstance:
       value: BeatManager
       objectReference: {fileID: 0}
     - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 1576262428}
-    - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
       propertyPath: intervals.Array.data[0].eventTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 7923480060392337234}
     - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: intervals.Array.data[1].eventTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: intervals.Array.data[0].eventTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 7923480060392337234}
     - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: intervals.Array.data[1].eventTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      propertyPath: intervals.Array.data[0].eventTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 7923480060392337234}
     - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: intervals.Array.data[1].eventTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      propertyPath: intervals.Array.data[0].eventTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 7923480060392337234}
-    - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: intervals.Array.data[0].eventTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnHalfbeat
-      objectReference: {fileID: 0}
-    - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: intervals.Array.data[1].eventTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: InvokeBeatCheckAfterCountDown
-      objectReference: {fileID: 0}
-    - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: intervals.Array.data[1].eventTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: InvokeEnemyTurnAfterCountDown
-      objectReference: {fileID: 0}
-    - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
-      propertyPath: intervals.Array.data[1].eventTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: InvokeHalfbeatCheckAfterCountDown
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -59554,67 +59518,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 986921317582998275, guid: 17c4568d4ea6ccf42ba10d6e7c59c323, type: 3}
   m_PrefabInstance: {fileID: 1982612276}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2242119466032981846
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 100256368335455822, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_Name
-      value: AudioManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1872208824658809381, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939372594566557652, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e3782bae65b073444a16627f3c1abbd4, type: 3}
 --- !u!1001 &3654068493632298948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70031,18 +69934,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
-      propertyPath: start
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
-      propertyPath: noEnemies
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
-      propertyPath: audioDelay
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
       propertyPath: beatManager
       value: 
       objectReference: {fileID: 1154772127}
@@ -70050,18 +69941,6 @@ PrefabInstance:
       propertyPath: cinemachine
       value: 
       objectReference: {fileID: 1946690567}
-    - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
-      propertyPath: delayPoints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
-      propertyPath: audioManager
-      value: 
-      objectReference: {fileID: 553685042}
-    - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
-      propertyPath: loopingDelay
-      value: 0.0625
-      objectReference: {fileID: 0}
     - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
       propertyPath: playerSpawner
       value: 
@@ -70101,6 +69980,18 @@ PrefabInstance:
     - target: {fileID: 143283453128994962, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
       propertyPath: textBox.Array.data[0].textToDisplay
       value: Dupa
+      objectReference: {fileID: 0}
+    - target: {fileID: 369965629162064866, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369965629162064866, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 970301624}
+    - target: {fileID: 369965629162064866, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Restart
       objectReference: {fileID: 0}
     - target: {fileID: 977362205624635084, guid: 2ee9bae3a933d854982f793fcead814a, type: 3}
       propertyPath: m_Pivot.x
@@ -70284,7 +70175,6 @@ SceneRoots:
   - {fileID: 970301623}
   - {fileID: 8185728357637123349}
   - {fileID: 4853319986281958583}
-  - {fileID: 2242119466032981846}
   - {fileID: 7923480060392337233}
   - {fileID: 1831113968}
   - {fileID: 7684858268823572355}

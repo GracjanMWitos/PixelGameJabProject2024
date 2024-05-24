@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4d5e960d819d04ea11f9083b43e664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
   moveIndicator: {fileID: 5738066883984523805, guid: 2f82b48a63b855c428068ef30b5c0731, type: 3}
   playerSpawner: {fileID: 0}
   cinemachine: {fileID: 0}
@@ -57,9 +56,11 @@ MonoBehaviour:
   isHalfbeat: 0
   audioDelay: 4
   invokeCountToHalfbeat: 0
+  invokeCountToHalfbeatAction: 0
   invokeCountToBeat: 0
   invokeCountToEnemyTurn: 0
   firstCountDown: 1
   secondCountDown: 1
   enemyTurnCooldown: 0
-  delayPoints: 0
+  delayIndincator: 4
+  delayNotes: 0

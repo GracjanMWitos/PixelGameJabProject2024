@@ -7,7 +7,6 @@ public class EnemiesManager : MonoBehaviour
     private static EnemiesManager _instance;
     public static EnemiesManager Instance { get { return _instance; } }
 
-    //public Transform[] enemiesArray;
     public List<EnemyController> enemyControllers = new List<EnemyController>();
     [SerializeField] private Transform currentEnemiesGroupTransform;
 
@@ -23,9 +22,6 @@ public class EnemiesManager : MonoBehaviour
             _instance = this;
         }
         #endregion
-
-
-
     }
     public void ActivateEnemies()
     {
