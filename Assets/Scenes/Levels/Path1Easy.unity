@@ -59417,6 +59417,10 @@ PrefabInstance:
       value: BeatManager
       objectReference: {fileID: 0}
     - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
+      propertyPath: steps
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058871520611442322, guid: 9fe3a91ea21e9a6498eeebfd7c42b847, type: 3}
       propertyPath: intervals.Array.data[0].eventTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 7923480060392337234}
