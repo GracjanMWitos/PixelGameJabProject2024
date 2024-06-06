@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GUIManager : MonoBehaviour
+public class GUIManager : MonoBehaviorSingleton<GUIManager>
 {
-    private static GUIManager _instance;
-    public static GUIManager Instance { get { return _instance; } }
-
     [SerializeField] private GameObject healthPointsParent;
     [SerializeField] private GameObject noteControllersParent;
     [SerializeField] private GameObject spacingIndicationParent;
@@ -19,18 +16,9 @@ public class GUIManager : MonoBehaviour
     public NoteController[] noteControllers;
     [SerializeField] private Transform[] spacingIndications;
 
-    void Awake()
+    protected override void Awake()
     {
-        #region Instance check
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-        #endregion
+        base.Awake();
     }
     void Start()
     {

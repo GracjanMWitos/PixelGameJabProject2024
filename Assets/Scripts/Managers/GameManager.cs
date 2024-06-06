@@ -3,11 +3,8 @@ using System.Collections;
 using UnityEngine;
 using Cinemachine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviorSingleton<GameManager>
 {
-    private static GameManager _instance;
-    public static GameManager Instance { get { return _instance; } }
-
     #region Assignments
     [Header("Assignments")]
     //Assigning via inspector
@@ -43,18 +40,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int delayIndincator;
     [SerializeField] private int delayNotes;
 
-    void Awake()
+    protected override void Awake()
     {
-        #region Instance check
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-        #endregion
+        base.Awake();
     }
 
     private void Start()
@@ -101,15 +89,22 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(audioDelay);
         beatManager.audioSource.Play();
     }
-    #region Invoking events after increasing index
-    public void EnemyTurn()
+    private void EnemyTurn()
     {
         if (EnemiesManager.Instance.enemyControllers.Count > 0)
         {
             EnemiesManager.Instance.ExecuteEnemiesActions();
         }
     }
-    public void InvokeHalfbeatActionCountDown()
+    #region Invoking after increasing index
+    public void ExecuteCounterIncreasing()
+    {
+        IncreaseCounterToBeatCheck();
+        IncreaseCounterToHalfbeatCheck();
+        IncreaseCounterToUnconditionalActions();
+        IncreaseCounterToEnemyTurn();
+    }
+    private void IncreaseCounterToUnconditionalActions()
     {
         invokeCountToHalfbeatAction++;
 
@@ -124,7 +119,7 @@ public class GameManager : MonoBehaviour
             canInvokeHalfbeatAction = true;
         }
     }
-    public void InvokeHalfbeatCheckAfterCountDown()
+    private void IncreaseCounterToHalfbeatCheck()
     {
         invokeCountToHalfbeat++;
 
@@ -148,7 +143,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void InvokeBeatCheckAfterCountDown()
+    private void IncreaseCounterToBeatCheck()
     {
         invokeCountToBeat++;
 
@@ -174,7 +169,7 @@ public class GameManager : MonoBehaviour
             isBeat = true;
         }
     }
-    public void InvokeEnemyTurnAfterCountDown()
+    private void IncreaseCounterToEnemyTurn()
     {
         invokeCountToEnemyTurn++;
 

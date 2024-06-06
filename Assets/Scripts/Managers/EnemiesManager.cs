@@ -1,27 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemiesManager : MonoBehaviour
+public class EnemiesManager : MonoBehaviorSingleton<EnemiesManager>
 {
-    private static EnemiesManager _instance;
-    public static EnemiesManager Instance { get { return _instance; } }
 
     public List<EnemyController> enemyControllers = new List<EnemyController>();
     [SerializeField] private Transform currentEnemiesGroupTransform;
 
-    void Awake()
+    protected override void Awake()
     {
-        #region Instance check
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-        #endregion
+        base.Awake();
     }
     public void ActivateEnemies()
     {

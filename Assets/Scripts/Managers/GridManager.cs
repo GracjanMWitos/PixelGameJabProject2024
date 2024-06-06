@@ -5,30 +5,20 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-public class GridManager : MonoBehaviour
+public class GridManager : MonoBehaviorSingleton<GridManager>
 {
-    private static GridManager _instance;
-    public static GridManager Instance { get { return _instance; } }
-
     //Assigning via inspector
     [SerializeField] private GridTile gridTilePrefab;
     [SerializeField] private Transform gridContainer;
     [SerializeField] private Tilemap groundTilemap;
 
     //Other
-    [HideInInspector] public List<Vector3Int> tilesLocationList = new List<Vector3Int>();
+    [System.NonSerialized] public List<Vector3Int> tilesLocationList = new List<Vector3Int>();
     public Dictionary<Vector2Int, GridTile> gridTilesMap = new Dictionary<Vector2Int, GridTile>();
-    void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
 
+    protected override void Awake()
+    {
+        base.Awake();
         GenerateGrid();
     }
 

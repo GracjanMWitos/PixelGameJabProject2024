@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class BeatManager : MonoBehaviour
 {
     public float bpm;
-    [HideInInspector] public AudioSource audioSource;
-
-    [SerializeField] private Intervals[] intervals;
+    private float steps = 16;
+    private int lastInterval;
+    [System.NonSerialized] public AudioSource audioSource;
 
     private void Awake()
     {
@@ -16,31 +16,19 @@ public class BeatManager : MonoBehaviour
     }
     private void Update()
     {
-        foreach (Intervals interval in intervals)
-        {
-            float sampledTime = (audioSource.timeSamples / (audioSource.clip.frequency * interval.GetIntervalLength(bpm)));
-            interval.CheckForNewInterval(sampledTime);
-        }
+            float sampledTime = (audioSource.timeSamples / (audioSource.clip.frequency * GetIntervalLength(bpm)));
+            CheckForNewInterval(sampledTime);
     }
-}
-[System.Serializable]
-public class Intervals
-{
-    [SerializeField] private float steps;
-    [SerializeField] private UnityEvent eventTrigger;
-    private int lastInterval;
-
     public float GetIntervalLength(float bpm)
     {
         return 60f / (bpm * steps);
     }
-
     public void CheckForNewInterval(float interval)
     {
         if (Mathf.FloorToInt(interval) != lastInterval)
         {
             lastInterval = Mathf.FloorToInt(interval);
-            eventTrigger.Invoke();
+            GameManager.Instance.ExecuteCounterIncreasing();
         }
     }
 }
