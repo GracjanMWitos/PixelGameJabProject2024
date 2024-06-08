@@ -15,15 +15,15 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
     [SerializeField] private BeatManager beatManager;
 
     //Assigning via code
-    [HideInInspector] public GameObject player;
-    [HideInInspector] public GridTile currentPlayerTile;
+    [NonSerialized] public GameObject player;
+    [NonSerialized] public GridTile currentPlayerTile;
     private PlayerController playerController;
     [Space]
     public bool noEnemies = true;
     #endregion
 
-    [HideInInspector] public bool isBeat;
-    [HideInInspector] public bool isHalfbeat;
+    [NonSerialized] public bool isBeat;
+    [NonSerialized] public bool isHalfbeat;
     private bool canInvokeHalfbeatAction = true;
 
     public float audioDelay;

@@ -13,6 +13,9 @@ public class GridTile : MonoBehaviour
 
     public GridTile previousTile;
 
+    public GridTile playerTile;
+    public float distanceFromPlayer { get { return Vector2.Distance(transform.position, playerTile.transform.position); } }
+
     [HideInInspector] public TileHolder tileHolder;
     [SerializeField] private Color playerTileColor;
     [SerializeField] private Color damagingTileColor;

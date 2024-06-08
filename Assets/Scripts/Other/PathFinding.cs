@@ -6,17 +6,17 @@ public class PathFinding
 {
     public List<GridTile> FindPath(GridTile start, GridTile end)
     {
-        List<GridTile> openList = new List<GridTile>();
-        List<GridTile> closedList = new List<GridTile>();
+        List<GridTile> tilesListToCheck = new List<GridTile>();
+        List<GridTile> checkedTilesList = new List<GridTile>();
 
-        openList.Add(start);
+        tilesListToCheck.Add(start);
 
-        while (openList.Count > 0)
+        while (tilesListToCheck.Count > 0)
         {
-            GridTile currentGridTile = openList.OrderBy(x => x.F).First();
+            GridTile currentGridTile = tilesListToCheck.OrderBy(x => x.F).First();
 
-            openList.Remove(currentGridTile);
-            closedList.Add(currentGridTile);
+            tilesListToCheck.Remove(currentGridTile);
+            checkedTilesList.Add(currentGridTile);
 
             if (currentGridTile == end)
             {
@@ -28,7 +28,7 @@ public class PathFinding
 
             foreach (var neighbour in neightbourTiles)
             {
-                if (neighbour.isBlocked || closedList.Contains(neighbour))
+                if (neighbour.isBlocked || checkedTilesList.Contains(neighbour))
                 {
                     continue;
                 }
@@ -38,9 +38,9 @@ public class PathFinding
 
                 neighbour.previousTile = currentGridTile;
 
-                if (!openList.Contains(neighbour))
+                if (!tilesListToCheck.Contains(neighbour))
                 {
-                    openList.Add(neighbour);
+                    tilesListToCheck.Add(neighbour);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class PathFinding
         return Mathf.Abs(start.gridTileLocation.x - neighnour.gridTileLocation.x) + Mathf.Abs(start.gridTileLocation.y - neighnour.gridTileLocation.y);
     }
 
-    private List<GridTile> GetNeighbourTiles(GridTile currentGridTile)
+    public List<GridTile> GetNeighbourTiles(GridTile currentGridTile)
     {
         var gridTilesMap = GridManager.Instance.gridTilesMap;
 

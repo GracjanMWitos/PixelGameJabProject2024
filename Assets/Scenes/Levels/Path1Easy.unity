@@ -59532,11 +59532,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 173656464426112084, guid: 4024daa588fb50e49b12df589ca3b9b7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 173656464426112084, guid: 4024daa588fb50e49b12df589ca3b9b7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 173656464426112084, guid: 4024daa588fb50e49b12df589ca3b9b7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -69936,6 +69936,10 @@ PrefabInstance:
     - target: {fileID: 4477682754605147599, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
+      propertyPath: audioDelay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5837096045308742364, guid: adf496d3f02a6114fad26bccfa5e750a, type: 3}
       propertyPath: beatManager

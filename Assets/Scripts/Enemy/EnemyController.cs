@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +6,9 @@ public class EnemyController : MonoBehaviour
 {
     //Assigning via code
     public GridTile playerTile;
-    [SerializeField] private GridTile currentEnemyTile;
-    private HealthController playerHealthController;
+    public GridTile neighbourTile;
+    [System.NonSerialized] public GridTile currentEnemyTile;
+    [System.NonSerialized] public GridTile previousEnemyTile;
     public SpriteRenderer spriteRenderer;
     private float timeBetweenMoves;
 
@@ -15,8 +16,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int damage;
     private bool attackPerperation;
 
-    [HideInInspector] public int numberOfMovesPerBeat = 1;
-    [HideInInspector] public bool isFightStarted;
+    [System.NonSerialized] public int numberOfMovesPerBeat = 1;
 
     private PathFinding pathFinding;
     private List<GridTile> path = new List<GridTile>();
@@ -26,20 +26,26 @@ public class EnemyController : MonoBehaviour
     {
         pathFinding = new PathFinding();
         currentEnemyTile = getGridTile.GetTile(transform.position);
+        //previousEnemyTile = currentEnemyTile;
     }
 
     public void ExecuteEnemyAction()
     {
-        if (currentEnemyTile != null && playerTile != null && isFightStarted)
+        if (currentEnemyTile != null && playerTile != null)
         {
             RefreshPath();
-            if (path[0] != playerTile && !attackPerperation)
+            if (path.Count == 0 || neighbourTile.isBlocked)
+            {
+                RefreshPath();
+            }
+            if (path[0] != playerTile && !attackPerperation && !path[0].isBlocked)
             {
                 EnemyMove();
             }
             else if (attackPerperation)
             {
                 DealDamageToPlayer();
+
                 attackPerperation = false;
                 return;
             }
@@ -52,35 +58,79 @@ public class EnemyController : MonoBehaviour
     private void RefreshPath()
     {
         path.Clear();
-        playerTile = GameManager.Instance.currentPlayerTile;
-        path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles that creating path to player
+        playerTile = GameManager.Instance.currentPlayerTile; // setting target on player
+        var neighbourTileList = GetClosestPosibleTileToPlayer();
+
+        foreach (GridTile neighbour in neighbourTileList)
+        { 
+            if (neighbour.isBlocked)
+                continue;
+
+            neighbourTile = neighbour;
+            break;
+        }
+
+        path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles creating path to player
+
+        //if path to player is blocked look for list of tiles creating path to neighbour closest to player
+        if (path.Count == 0)
+            path = pathFinding.FindPath(currentEnemyTile, neighbourTile);
+    }
+    private List<GridTile> GetClosestPosibleTileToPlayer()
+    {
+        var targetNeighboursList = pathFinding.GetNeighbourTiles(playerTile); //listOfPlayerNeighbours
+        var availableNeighbours = new List<GridTile>();
+
+        foreach (GridTile targetNeighbour in targetNeighboursList) // going though all players neighbours
+        {
+            List<GridTile> neighboursOfTargetNeighbour = pathFinding.GetNeighbourTiles(targetNeighbour); // getting current neighbour neighbours
+
+            foreach (GridTile neighbour in neighboursOfTargetNeighbour)
+                if (!neighbour.isBlocked || !availableNeighbours.Contains(neighbour))
+                {
+                    neighbour.playerTile = playerTile;
+
+                    if (neighbour != playerTile)
+                        availableNeighbours.Add(neighbour);
+                }
+        }
+        availableNeighbours.OrderBy(x => x.distanceFromPlayer);
+        return availableNeighbours;
     }
     #region Movement
     private void EnemyMove()
     {
-        timeBetweenMoves = GameManager.Instance.GetTimeBetweenHeafbeats();
-        transform.position = Vector3.Lerp(transform.position, SelectNextMove(), timeBetweenMoves / Time.deltaTime);
+        //getting time between moves matching to time between beats
+        timeBetweenMoves = GameManager.Instance.GetTimeBetweenHeafbeats() / 10;
+        SetTilesRelatedToThisEnemy();
 
+        StartCoroutine(Extns.SmoothTweeng(timeBetweenMoves,
+            (p) => transform.position = p,
+            previousEnemyTile.transform.position,
+            currentEnemyTile.transform.position
+           )
+            );
     }
-    private Vector3 SelectNextMove()
+    private void SetTilesRelatedToThisEnemy()
     {
+        // setting current tile that is ocupated before move as previous one and on unblocked
+        previousEnemyTile = currentEnemyTile;
+        previousEnemyTile.isBlocked = false;
+
+        // setting the next tile from the path as the current one and blocking it for other enemies 
         currentEnemyTile = path[0];
+        currentEnemyTile.isBlocked = true;
+
+        // as next tile is saved, it can be removed to check check that the distance from the player is sufficient to prepare for an attack
         path.RemoveAt(0);
         if (path.Count == 1)
-        {
             attackPerperation = true;
-        }
-        return currentEnemyTile.transform.position;
+
     }
     #endregion
     private void DealDamageToPlayer()
     {
         if (path[0] == playerTile)
-        {
-            if (playerHealthController == null)
-                playerHealthController = GameManager.Instance.player.GetComponent<HealthController>();
-
-            playerHealthController.TakeDamage(damage);
-        }
+            GameManager.Instance.player.GetComponent<HealthController>().TakeDamage(damage);
     }
 }

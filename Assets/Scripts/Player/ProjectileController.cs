@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
+    //Assignments
     private Transform target;
-    [SerializeField] private Transform eventsActivator;
     private Rigidbody2D projectileRB;
+    [SerializeField] private Transform eventsActivator;
 
     [SerializeField] private int projectileDamage = 1;
     [SerializeField] private float projectileSpeed;

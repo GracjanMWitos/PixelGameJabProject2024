@@ -34,4 +34,19 @@ public static class Extns
 
         var(end);
     }
+    public static IEnumerator SmoothTweeng(this float duration,
+           System.Action<Vector3> var, Vector3 start, Vector3 end)
+    {
+        float sT = Time.time;
+        float eT = sT + duration;
+
+        while (Time.time < eT)
+        {
+            float t = (Time.time - sT) / duration;
+            var(Vector3.Lerp(start, end, Mathf.SmoothStep(0f, 1f, t)));
+            yield return null;
+        }
+
+        var(end);
+    }
 }

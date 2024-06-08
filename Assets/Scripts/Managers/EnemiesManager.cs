@@ -6,6 +6,7 @@ public class EnemiesManager : MonoBehaviorSingleton<EnemiesManager>
 
     public List<EnemyController> enemyControllers = new List<EnemyController>();
     [SerializeField] private Transform currentEnemiesGroupTransform;
+    private bool isFightStarted = false;
 
     protected override void Awake()
     {
@@ -16,9 +17,9 @@ public class EnemiesManager : MonoBehaviorSingleton<EnemiesManager>
         RefreshEnemiesList();
 
         int totalEnemiesHealthCount = 0;
+        isFightStarted = true;
         foreach (EnemyController enemyController in enemyControllers)
         {
-            enemyController.isFightStarted = true;
             enemyController.spriteRenderer.enabled = true;
             totalEnemiesHealthCount += enemyController.GetComponent<HealthController>().maxHealthPoints;
         }
@@ -29,28 +30,26 @@ public class EnemiesManager : MonoBehaviorSingleton<EnemiesManager>
         enemyControllers.Clear();
         EnemyController[] tempEnemiesArray = currentEnemiesGroupTransform.GetComponentsInChildren<EnemyController>();
         if (tempEnemiesArray.Length > 0)
-        {
             foreach (EnemyController enemyController in tempEnemiesArray)
             {
                 enemyController.playerTile = GameManager.Instance.currentPlayerTile;
                 enemyControllers.Add(enemyController);
             }
-        }
         else
-        {
             GameManager.Instance.FinishLevel();
-        }
-
     }
     public void ExecuteEnemiesActions()
     {
+        if (!isFightStarted)
+            return;
+
         RefreshEnemiesList();
+
         foreach (EnemyController enemyController in enemyControllers)
-        { 
             if (enemyController != null)
             {
                 enemyController.ExecuteEnemyAction();
             }
-        }
+
     }
 }
