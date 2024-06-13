@@ -14,7 +14,7 @@ public class GridManager : MonoBehaviorSingleton<GridManager>
 
     //Other
     [System.NonSerialized] public List<Vector3Int> tilesLocationList = new List<Vector3Int>();
-    public Dictionary<Vector2Int, GridTile> gridTilesMap = new Dictionary<Vector2Int, GridTile>();
+    public Dictionary<Vector2Int, GridTile> gridTilesMap = new();
 
     protected override void Awake()
     {
@@ -35,13 +35,16 @@ public class GridManager : MonoBehaviorSingleton<GridManager>
                 {
                     var gridTile = Instantiate(gridTilePrefab, tileLocation, Quaternion.identity, gridContainer);
 
-                    gridTile.gridTileLocation = tileLocation;
+                    gridTile.gridTileKey = tileKey;
                     gridTile.name = "tile " + tileKey;
+
                     tilesLocationList.Add(tileLocation);
                     gridTilesMap.Add(tileKey, gridTile);
                 }
             }
         }
+        DjikstraMap djikstraMap = new();
+        djikstraMap.Mapping(gridTilesMap[new(-4, 21)]);
     }
 }
 

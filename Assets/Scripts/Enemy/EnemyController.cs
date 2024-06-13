@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         pathFinding = new PathFinding();
-        currentEnemyTile = getGridTile.GetTile(transform.position);
+        currentEnemyTile = (GridTile)getGridTile.GetTile(transform.position);
         //previousEnemyTile = currentEnemyTile;
     }
 
@@ -34,11 +34,7 @@ public class EnemyController : MonoBehaviour
         if (currentEnemyTile != null && playerTile != null)
         {
             RefreshPath();
-            if (path.Count == 0 || neighbourTile.isBlocked)
-            {
-                RefreshPath();
-            }
-            if (path[0] != playerTile && !attackPerperation && !path[0].isBlocked)
+            if (path[0] != playerTile && !attackPerperation)
             {
                 EnemyMove();
             }
@@ -59,7 +55,11 @@ public class EnemyController : MonoBehaviour
     {
         path.Clear();
         playerTile = GameManager.Instance.currentPlayerTile; // setting target on player
-        var neighbourTileList = GetClosestPosibleTileToPlayer();
+
+
+        //path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles creating path to player
+
+        /*var neighbourTileList = GetClosestPosibleTileToPlayer();
 
         foreach (GridTile neighbour in neighbourTileList)
         { 
@@ -70,13 +70,12 @@ public class EnemyController : MonoBehaviour
             break;
         }
 
-        path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles creating path to player
 
         //if path to player is blocked look for list of tiles creating path to neighbour closest to player
         if (path.Count == 0)
-            path = pathFinding.FindPath(currentEnemyTile, neighbourTile);
+            path = pathFinding.FindPath(currentEnemyTile, neighbourTile);*/
     }
-    private List<GridTile> GetClosestPosibleTileToPlayer()
+    /*private List<GridTile> GetClosestPosibleTileToPlayer()
     {
         var targetNeighboursList = pathFinding.GetNeighbourTiles(playerTile); //listOfPlayerNeighbours
         var availableNeighbours = new List<GridTile>();
@@ -96,13 +95,13 @@ public class EnemyController : MonoBehaviour
         }
         availableNeighbours.OrderBy(x => x.distanceFromPlayer);
         return availableNeighbours;
-    }
+    }*/
     #region Movement
     private void EnemyMove()
     {
         //getting time between moves matching to time between beats
         timeBetweenMoves = GameManager.Instance.GetTimeBetweenHeafbeats() / 10;
-        SetTilesRelatedToThisEnemy();
+        //SetTilesRelatedToThisEnemy();
 
         StartCoroutine(Extns.SmoothTweeng(timeBetweenMoves,
             (p) => transform.position = p,
@@ -111,7 +110,7 @@ public class EnemyController : MonoBehaviour
            )
             );
     }
-    private void SetTilesRelatedToThisEnemy()
+    /*private void SetTilesRelatedToThisEnemy()
     {
         // setting current tile that is ocupated before move as previous one and on unblocked
         previousEnemyTile = currentEnemyTile;
@@ -126,7 +125,7 @@ public class EnemyController : MonoBehaviour
         if (path.Count == 1)
             attackPerperation = true;
 
-    }
+    }*/
     #endregion
     private void DealDamageToPlayer()
     {

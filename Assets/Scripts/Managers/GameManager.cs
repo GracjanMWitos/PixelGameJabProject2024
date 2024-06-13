@@ -18,14 +18,15 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
     [NonSerialized] public GameObject player;
     [NonSerialized] public GridTile currentPlayerTile;
     private PlayerController playerController;
-    [Space]
-    public bool noEnemies = true;
-    #endregion
+    private DjikstraMap djikstraMap = new();
 
+    #endregion
+    [NonSerialized]public bool noEnemies = true;
     [NonSerialized] public bool isBeat;
     [NonSerialized] public bool isHalfbeat;
-    private bool canInvokeHalfbeatAction = true;
 
+    private bool canInvokeHalfbeatAction = true;
+    [Space]
     public float audioDelay;
 
     private int invokeCountToHalfbeat;
@@ -35,8 +36,9 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
 
     private bool firstCountDown = true;
     private bool secondCountDown = true;
-    private bool enemyTurnCooldown = true;
 
+    private bool enemyTurnCooldown = true;
+    private bool firstCountingToEnemyTurn = true;
     [SerializeField] private int delayIndincator;
     [SerializeField] private int delayNotes;
 
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
 
         player = playerSpawner.SpawnPlayer();
         playerController = player.GetComponent<PlayerController>();
-        currentPlayerTile = playerController.getGridTile.GetTile(player.transform.position);
+        currentPlayerTile = (GridTile)playerController.getGridTile.GetTile(player.transform.position);
         moveIndicator = AttachMoveIndicatorToPlayer();
         cinemachine.Follow = player.transform;
         EnemiesManager.Instance.RefreshEnemiesList();
@@ -93,6 +95,7 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
     {
         if (EnemiesManager.Instance.enemyControllers.Count > 0)
         {
+            djikstraMap.Mapping(currentPlayerTile);
             EnemiesManager.Instance.ExecuteEnemiesActions();
         }
     }
@@ -153,6 +156,7 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
             isBeat = false;
             playerController.canMove = true;
             moveIndicator.SetActive(false);
+            EnemyTurn();
         }
         else if (invokeCountToBeat == 10 && !isBeat && !secondCountDown)
         {
@@ -173,16 +177,23 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
     {
         invokeCountToEnemyTurn++;
 
-        if (invokeCountToEnemyTurn == 4 && enemyTurnCooldown)
+        if (invokeCountToEnemyTurn == 6 && enemyTurnCooldown && !firstCountingToEnemyTurn)
         {
             invokeCountToEnemyTurn = 0;
             enemyTurnCooldown = false;
+
         }
-        else if (invokeCountToEnemyTurn == 12 + delayIndincator && !enemyTurnCooldown)
+        else if (invokeCountToEnemyTurn == 10 && !enemyTurnCooldown && !firstCountingToEnemyTurn)
         {
             invokeCountToEnemyTurn = 0;
             enemyTurnCooldown = true;
-            EnemyTurn();
+        }
+        // first counting
+        else if (invokeCountToEnemyTurn == 13 + delayIndincator && enemyTurnCooldown && firstCountingToEnemyTurn)
+        {
+            firstCountingToEnemyTurn = false;
+            invokeCountToEnemyTurn = 0;
+            enemyTurnCooldown = true;
         }
     }
     #endregion

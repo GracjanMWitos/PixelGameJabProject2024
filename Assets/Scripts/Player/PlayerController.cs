@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
             currentPosition = transform.position;
             Vector3 nextTile = new Vector3(currentPosition.x + xAxisValue, currentPosition.y + yAxisValue, currentPosition.z);
             transform.position = CheckNextTile(currentPosition, nextTile);
-            GameManager.Instance.currentPlayerTile = getGridTile.GetTile(transform.position);
+            GameManager.Instance.currentPlayerTile = (GridTile)getGridTile.GetTile(transform.position);
 
             canMove = false;
         }

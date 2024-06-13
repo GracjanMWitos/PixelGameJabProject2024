@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PathFinding
 {
-    public List<GridTile> FindPath(GridTile start, GridTile end)
+    /*public List<GridTile> FindPath(GridTile start, GridTile end)
     {
         List<GridTile> tilesListToCheck = new List<GridTile>();
         List<GridTile> checkedTilesList = new List<GridTile>();
@@ -13,7 +13,7 @@ public class PathFinding
 
         while (tilesListToCheck.Count > 0)
         {
-            GridTile currentGridTile = tilesListToCheck.OrderBy(x => x.F).First();
+            GraphNode currentGridTile = tilesListToCheck.OrderBy(x => x.F).First();
 
             tilesListToCheck.Remove(currentGridTile);
             checkedTilesList.Add(currentGridTile);
@@ -24,11 +24,11 @@ public class PathFinding
                 return GetFinishList(start, end);
             }
 
-            var neightbourTiles = GetNeighbourTiles(currentGridTile);
+            var neightbourTiles = currentGridTile.GetConnections();
 
             foreach (var neighbour in neightbourTiles)
             {
-                if (neighbour.isBlocked || checkedTilesList.Contains(neighbour))
+                if (neighbour || checkedTilesList.Contains(neighbour.node))
                 {
                     continue;
                 }
@@ -64,57 +64,6 @@ public class PathFinding
 
     private int GetManhettenDistance(GridTile start, GridTile neighnour)
     {
-        return Mathf.Abs(start.gridTileLocation.x - neighnour.gridTileLocation.x) + Mathf.Abs(start.gridTileLocation.y - neighnour.gridTileLocation.y);
-    }
-
-    public List<GridTile> GetNeighbourTiles(GridTile currentGridTile)
-    {
-        var gridTilesMap = GridManager.Instance.gridTilesMap;
-
-        List<GridTile> neighbourTiles = new List<GridTile>();
-
-        //top neighbour
-        Vector2Int locationToCheck = new Vector2Int(
-            currentGridTile.gridTileLocation.x,
-            currentGridTile.gridTileLocation.y + 1
-            );
-
-        if (gridTilesMap.ContainsKey(locationToCheck))
-        {
-            neighbourTiles.Add(gridTilesMap[locationToCheck]);
-        }
-        //bottom neighbour
-        locationToCheck = new Vector2Int(
-            currentGridTile.gridTileLocation.x,
-            currentGridTile.gridTileLocation.y - 1
-            );
-
-        if (gridTilesMap.ContainsKey(locationToCheck))
-        {
-            neighbourTiles.Add(gridTilesMap[locationToCheck]);
-        }
-        //left neighbour
-        locationToCheck = new Vector2Int(
-            currentGridTile.gridTileLocation.x - 1,
-            currentGridTile.gridTileLocation.y
-            );
-
-        if (gridTilesMap.ContainsKey(locationToCheck))
-        {
-            neighbourTiles.Add(gridTilesMap[locationToCheck]);
-        }
-        //right neighbour
-        locationToCheck = new Vector2Int(
-            currentGridTile.gridTileLocation.x + 1,
-            currentGridTile.gridTileLocation.y
-            );
-
-        if (gridTilesMap.ContainsKey(locationToCheck))
-        {
-            neighbourTiles.Add(gridTilesMap[locationToCheck]);
-        }
-
-        return neighbourTiles;
-    }
-
+        return Mathf.Abs(start.gridTileKey.x - neighnour.gridTileKey.x) + Mathf.Abs(start.gridTileKey.y - neighnour.gridTileKey.y);
+    }*/
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GetGridTile
 {
-    public GridTile GetTile(Vector3 position)
+    public GraphNode GetTile(Vector3 position)
     {
         var tileKey = new Vector2Int((int)position.x, (int)position.y);
 
