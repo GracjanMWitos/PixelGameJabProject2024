@@ -19,7 +19,7 @@ public class GridTile : MonoBehaviour, GraphNode
 
 
 
-    public float DistancFromPlayer;
+    public float DistanceFromPlayer;
 
     public static Vector2Int[] directions = new Vector2Int[] {
             new(1, 0),
@@ -40,7 +40,7 @@ public class GridTile : MonoBehaviour, GraphNode
             {
                 GraphNode.ConnectionInfo connectionInfo = new(); 
                 connectionInfo.tile = gridTilesMapKey[neighbourKey];
-                connectionInfo.Distance = Vector2.Distance(transform.position, neighbourKey); // distance from this tile to neighbour key which is tile position 
+                connectionInfo.Distance = Mathf.RoundToInt(Vector2.Distance(transform.position, neighbourKey)); // distance from this tile to neighbour key which is tile position 
 
                 nodesConnections.Add(connectionInfo);
             }

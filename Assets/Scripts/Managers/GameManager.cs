@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
     [SerializeField] private CinemachineVirtualCamera cinemachine;
     [SerializeField] private LevelFinishingSequence levelFinishingSequence;
     [SerializeField] private BeatManager beatManager;
+    [SerializeField] private GameObject mapDebugTextMeshPrefab;
 
     //Assigning via code
     [NonSerialized] public GameObject player;
@@ -34,13 +35,15 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
     private int invokeCountToBeat;
     private int invokeCountToEnemyTurn;
 
-    private bool firstCountDown = true;
-    private bool secondCountDown = true;
+    [SerializeField] private bool firstCountDown = true;
+    [SerializeField] private bool secondCountDown = true;
 
     private bool enemyTurnCooldown = true;
     private bool firstCountingToEnemyTurn = true;
     [SerializeField] private int delayIndincator;
     [SerializeField] private int delayNotes;
+
+    [SerializeField] private bool debugMode;
 
     protected override void Awake()
     {
@@ -95,7 +98,21 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
     {
         if (EnemiesManager.Instance.enemyControllers.Count > 0)
         {
-            djikstraMap.Mapping(currentPlayerTile);
+             var map = djikstraMap.Mapping(currentPlayerTile);
+            if (debugMode)
+            {
+                foreach (GridTile tile in map)
+                {
+                    TMPro.TextMeshPro tileText = new();
+                    if (tile.transform.childCount == 0)
+                        tileText = Instantiate(mapDebugTextMeshPrefab, tile.transform).GetComponent<TMPro.TextMeshPro>();
+                    else
+                        tileText = tile.transform.GetComponentInChildren<TMPro.TextMeshPro>();
+
+                    tileText.text = tile.DistanceFromPlayer.ToString();
+                }    
+            }
+
             EnemiesManager.Instance.ExecuteEnemiesActions();
         }
     }
@@ -105,7 +122,7 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
         IncreaseCounterToBeatCheck();
         IncreaseCounterToHalfbeatCheck();
         IncreaseCounterToUnconditionalActions();
-        IncreaseCounterToEnemyTurn();
+        //IncreaseCounterToEnemyTurn();
     }
     private void IncreaseCounterToUnconditionalActions()
     {
@@ -173,7 +190,7 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
             isBeat = true;
         }
     }
-    private void IncreaseCounterToEnemyTurn()
+    /*private void IncreaseCounterToEnemyTurn()
     {
         invokeCountToEnemyTurn++;
 
@@ -195,6 +212,6 @@ public class GameManager : MonoBehaviorSingleton<GameManager>
             invokeCountToEnemyTurn = 0;
             enemyTurnCooldown = true;
         }
-    }
+    }*/
     #endregion
 }

@@ -131,11 +131,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTile: {fileID: 0}
-  currentEnemyTile: {fileID: 0}
+  neighbourTile: {fileID: 0}
   spriteRenderer: {fileID: 1577112295792863539}
+  attackIndicator: {fileID: 2905945383122923130, guid: 27747933728b7774cafb81d4751b12d9, type: 3}
+  DistanceFromPlayer: 0
   damage: 1
-  numberOfMovesPerBeat: 1
-  isFightStarted: 0
 --- !u!114 &6276286171035536557
 MonoBehaviour:
   m_ObjectHideFlags: 0

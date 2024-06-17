@@ -7,7 +7,7 @@ public class DjikstraMap
 {
     public List<GridTile> Mapping(GraphNode startTile)
     {
-        ResetTiles();
+        ResetDistanceFromTilesToPlayer();
 
         List<GridTile> map = new();
         List<GraphNode> nodesListToCheck = new();
@@ -23,11 +23,11 @@ public class DjikstraMap
 
             foreach (GraphNode.ConnectionInfo connection in currentNode.GetConnections())
             {
-                var distanceMadeThisPath = currentNode.DistancFromPlayer + connection.Distance; // current node distance from player + distance from current tile to one that is checking now
+                var distanceMadeThisPath = currentNode.DistanceFromPlayer + connection.Distance; // current node distance from player + distance from current tile to one that is checking now
 
-                if (!map.Contains(connection.tile) && (connection.tile.DistancFromPlayer > distanceMadeThisPath || connection.tile.DistancFromPlayer == 0))
+                if (!map.Contains(connection.tile) && (connection.tile.DistanceFromPlayer > distanceMadeThisPath || connection.tile.DistanceFromPlayer == 0))
                 {
-                    connection.tile.DistancFromPlayer = distanceMadeThisPath;
+                    connection.tile.DistanceFromPlayer = distanceMadeThisPath;
 
                     if (!nodesListToCheck.Contains(connection.tile))
                         nodesListToCheck.Add(connection.tile);
@@ -37,9 +37,9 @@ public class DjikstraMap
         return map;
     }
 
-    private void ResetTiles()
+    private void ResetDistanceFromTilesToPlayer()
     {
         foreach (GridTile tile in GridManager.Instance.gridTilesMap.Values)
-            tile.DistancFromPlayer = 0;
+            tile.DistanceFromPlayer = 0;
     }
 }

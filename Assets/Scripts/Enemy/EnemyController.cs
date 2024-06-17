@@ -8,8 +8,9 @@ public class EnemyController : MonoBehaviour
     public GridTile playerTile;
     public GridTile neighbourTile;
     [System.NonSerialized] public GridTile currentEnemyTile;
-    [System.NonSerialized] public GridTile previousEnemyTile;
     public SpriteRenderer spriteRenderer;
+    [SerializeField] private GameObject attackIndicator;
+    public float DistanceFromPlayer;
     private float timeBetweenMoves;
 
 
@@ -19,117 +20,75 @@ public class EnemyController : MonoBehaviour
     [System.NonSerialized] public int numberOfMovesPerBeat = 1;
 
     private PathFinding pathFinding;
-    private List<GridTile> path = new List<GridTile>();
     private GetGridTile getGridTile = new GetGridTile();
 
     private void Start()
     {
         pathFinding = new PathFinding();
         currentEnemyTile = (GridTile)getGridTile.GetTile(transform.position);
-        //previousEnemyTile = currentEnemyTile;
     }
 
     public void ExecuteEnemyAction()
     {
         if (currentEnemyTile != null && playerTile != null)
         {
-            RefreshPath();
-            if (path[0] != playerTile && !attackPerperation)
+            var nextTile = pathFinding.GetNextTileOnPathToPlayer(currentEnemyTile);
+
+            if (nextTile.DistanceFromPlayer > 0 && !attackPerperation)
             {
-                EnemyMove();
+                ExecuteMoveTo(nextTile);
+                BlockNextPositionForOthers(nextTile);
             }
             else if (attackPerperation)
             {
-                DealDamageToPlayer();
+                ExecuteAttackOn(nextTile);
+            }
+            else if (!attackPerperation)
+                PrepareAttack(nextTile.transform.position);
 
-                attackPerperation = false;
-                return;
-            }
-            else if (path[0] == playerTile)
-            {
-                attackPerperation = true;
-            }
         }
     }
-    private void RefreshPath()
+    private void BlockNextPositionForOthers(GridTile nextTile)
     {
-        path.Clear();
-        playerTile = GameManager.Instance.currentPlayerTile; // setting target on player
-
-
-        //path = pathFinding.FindPath(currentEnemyTile, playerTile); //Geting list of tiles creating path to player
-
-        /*var neighbourTileList = GetClosestPosibleTileToPlayer();
-
-        foreach (GridTile neighbour in neighbourTileList)
-        { 
-            if (neighbour.isBlocked)
-                continue;
-
-            neighbourTile = neighbour;
-            break;
-        }
-
-
-        //if path to player is blocked look for list of tiles creating path to neighbour closest to player
-        if (path.Count == 0)
-            path = pathFinding.FindPath(currentEnemyTile, neighbourTile);*/
+        nextTile.DistanceFromPlayer = 10000;
+        if (nextTile.transform.childCount != 0)
+            nextTile.GetComponentInChildren<TMPro.TextMeshPro>().text = nextTile.DistanceFromPlayer.ToString();
     }
-    /*private List<GridTile> GetClosestPosibleTileToPlayer()
-    {
-        var targetNeighboursList = pathFinding.GetNeighbourTiles(playerTile); //listOfPlayerNeighbours
-        var availableNeighbours = new List<GridTile>();
 
-        foreach (GridTile targetNeighbour in targetNeighboursList) // going though all players neighbours
-        {
-            List<GridTile> neighboursOfTargetNeighbour = pathFinding.GetNeighbourTiles(targetNeighbour); // getting current neighbour neighbours
-
-            foreach (GridTile neighbour in neighboursOfTargetNeighbour)
-                if (!neighbour.isBlocked || !availableNeighbours.Contains(neighbour))
-                {
-                    neighbour.playerTile = playerTile;
-
-                    if (neighbour != playerTile)
-                        availableNeighbours.Add(neighbour);
-                }
-        }
-        availableNeighbours.OrderBy(x => x.distanceFromPlayer);
-        return availableNeighbours;
-    }*/
     #region Movement
-    private void EnemyMove()
+    private void ExecuteMoveTo(GridTile nextTile)
     {
         //getting time between moves matching to time between beats
         timeBetweenMoves = GameManager.Instance.GetTimeBetweenHeafbeats() / 10;
-        //SetTilesRelatedToThisEnemy();
-
-        StartCoroutine(Extns.SmoothTweeng(timeBetweenMoves,
+        
+        if (nextTile != null)
+            StartCoroutine(Extns.SmoothTweeng(timeBetweenMoves,
             (p) => transform.position = p,
-            previousEnemyTile.transform.position,
-            currentEnemyTile.transform.position
-           )
-            );
+            currentEnemyTile.transform.position,
+            nextTile.transform.position
+           ));
+
+        currentEnemyTile = nextTile;
+
+        if (pathFinding.GetNextTileOnPathToPlayer(nextTile) == playerTile)
+            PrepareAttack(nextTile.transform.position);
     }
-    /*private void SetTilesRelatedToThisEnemy()
-    {
-        // setting current tile that is ocupated before move as previous one and on unblocked
-        previousEnemyTile = currentEnemyTile;
-        previousEnemyTile.isBlocked = false;
-
-        // setting the next tile from the path as the current one and blocking it for other enemies 
-        currentEnemyTile = path[0];
-        currentEnemyTile.isBlocked = true;
-
-        // as next tile is saved, it can be removed to check check that the distance from the player is sufficient to prepare for an attack
-        path.RemoveAt(0);
-        if (path.Count == 1)
-            attackPerperation = true;
-
-    }*/
     #endregion
+    private void PrepareAttack(Vector3 indicatorPosition)
+    {
+        attackPerperation = true;
+        attackIndicator.transform.position = indicatorPosition;
+        attackIndicator.SetActive(true);
+    }
+    private void ExecuteAttackOn(GridTile tileToAttack)
+    {
+        attackPerperation = false;
+        attackIndicator.SetActive(false);
+        if (tileToAttack.DistanceFromPlayer == 0)
+            DealDamageToPlayer();
+    }
     private void DealDamageToPlayer()
     {
-        if (path[0] == playerTile)
             GameManager.Instance.player.GetComponent<HealthController>().TakeDamage(damage);
     }
 }
